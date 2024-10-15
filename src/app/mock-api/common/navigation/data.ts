@@ -56,7 +56,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Movement',
                         type: 'basic',
                         icon    : 'feather:navigation',
-                        link: '/data/movement',
+                        link: '/requests/movement',
                     },
                 ],
             },

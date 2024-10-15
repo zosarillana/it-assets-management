@@ -19,7 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-const assetsInventory:Route[]=[
+const assetRoute:Route[]=[
   {
     path: 'inventory',
     component: InventoryTableComponent
@@ -52,7 +52,7 @@ const assetsInventory:Route[]=[
     MatDividerModule,
     MatFormFieldModule,
     MatSelectModule,
-    RouterModule.forChild(assetsInventory)
+    RouterModule.forChild(assetRoute)
   ]
 })
 export class AssetsModuleModule { }

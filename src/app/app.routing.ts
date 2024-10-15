@@ -75,8 +75,11 @@ export const appRoutes: Route[] = [
         },
         children   : [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
+            //assets
             {path: 'assets', loadChildren: () => import('app/modules/admin/assets/assets-module/assets-module.module').then(m => m.AssetsModuleModule)},
-            {path: 'assets', loadChildren: () => import('app/modules/admin/assets/assets-module/assets-module.module').then(m => m.AssetsModuleModule)}
+            {path: 'assets', loadChildren: () => import('app/modules/admin/assets/assets-module/assets-module.module').then(m => m.AssetsModuleModule)},
+            //data
+            {path: 'requests', loadChildren: () => import('app/modules/admin/data/data-module/data-module.module').then(m => m.DataModuleModule)},
         ]
     }
 ];

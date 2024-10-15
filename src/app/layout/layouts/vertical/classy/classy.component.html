@@ -4,7 +4,8 @@
     [mode]="isScreenSmall ? 'over' : 'side'"
     [name]="'mainNavigation'"
     [navigation]="navigation.default"
-    [opened]="!isScreenSmall">
+    [opened]="!isScreenSmall"
+>
     <!-- Navigation header hook -->
     <ng-container fuseVerticalNavigationContentHeader>
         <div class="flex items-center w-full p-4 pl-6">
@@ -12,12 +13,15 @@
             <div class="flex items-center justify-center">
                 <img
                     class="w-8"
-                    src="assets/images/logo/logo.svg">
+                    style="height: 60px; width: 80px"
+                    src="assets/images/logo/wc3orc.png"
+                    alt="WC3 Orc Logo"
+                />
             </div>
             <!-- Components -->
             <div class="flex items-center ml-auto">
                 <!-- <notifications></notifications> -->
-                <!-- <user [showAvatar]="false"></user> -->
+                <user [showAvatar]="false"></user>
             </div>
         </div>
         <!-- User -->
@@ -25,20 +29,25 @@
             <div class="relative w-24 h-24">
                 <img
                     class="w-full h-full rounded-full"
-                    *ngIf="user.avatar"
-                    [src]="user.avatar"
-                    alt="User avatar">
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS0Qpz3bChXFipEEbid1sDp1hjIn4dsFaRng&s"
+                    alt="User avatar"
+                />
                 <mat-icon
                     class="icon-size-24"
                     *ngIf="!user.avatar"
-                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                    [svgIcon]="'heroicons_solid:user-circle'"
+                ></mat-icon>
             </div>
             <div class="flex flex-col items-center justify-center w-full mt-6">
-                <div class="w-full whitespace-nowrap overflow-ellipsis overflow-hidden text-center leading-normal font-medium">
-                    {{user.name}}
+                <div
+                    class="w-full whitespace-nowrap overflow-ellipsis overflow-hidden text-center leading-normal font-medium"
+                >
+                    {{ user.name }}
                 </div>
-                <div class="w-full mt-0.5 whitespace-nowrap overflow-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">
-                    {{user.email}}
+                <div
+                    class="w-full mt-0.5 whitespace-nowrap overflow-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary"
+                >
+                    {{ user.email }}
                 </div>
             </div>
         </div>
@@ -55,13 +64,12 @@
 
 <!-- Wrapper -->
 <div class="flex flex-col flex-auto w-full min-w-0">
-
     <!-- Header -->
-    <div class="relative flex flex-0 items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden">
+    <div
+        class="relative flex flex-0 items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden"
+    >
         <!-- Navigation toggle button -->
-        <button
-            mat-icon-button
-            (click)="toggleNavigation('mainNavigation')">
+        <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
             <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
         </button>
         <!-- Components -->
@@ -88,10 +96,14 @@
     </div>
 
     <!-- Footer -->
-    <div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
-        <span class="font-medium text-secondary">Anas breeders farms inc. | IT - Assets &copy; {{currentYear}}</span>
+    <div
+        class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden"
+    >
+        <span class="font-medium text-secondary"
+            >Anas breeders farms inc. | IT - Assets &copy;
+            {{ currentYear }}</span
+        >
     </div>
-
 </div>
 
 <!-- Quick chat -->
