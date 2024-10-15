@@ -13,6 +13,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FuseCardModule } from '@fuse/components/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const assetsInventory:Route[]=[
   {
@@ -33,6 +38,11 @@ const assetsInventory:Route[]=[
     AssetExportComponent
   ],
   imports: [
+    MatButtonToggleModule,
+    MatProgressBarModule,
+    FuseCardModule,
+    MatMenuModule,
+    MatTooltipModule,
     MatIconModule,
     CommonModule,
     MatButtonModule,
