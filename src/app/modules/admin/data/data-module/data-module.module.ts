@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule} from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatRippleModule } from '@angular/material/core';
 const dataRoute:Route[]=[
   {
     path: 'movement',
@@ -18,6 +19,7 @@ const dataRoute:Route[]=[
     MovementTableComponent
   ],
   imports: [
+    MatRippleModule,
     MatIconModule,
     CommonModule,
     MatPaginatorModule,  

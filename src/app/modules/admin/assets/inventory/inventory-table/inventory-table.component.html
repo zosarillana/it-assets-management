@@ -28,7 +28,7 @@
                 <div class="flex sm:hidden">
                     <a
                         class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'./..'"
+                        [routerLink]="'/dashboard'"
                     >
                         <mat-icon
                             class="icon-size-5 text-secondary"
@@ -55,7 +55,7 @@
         <div class="flex flex-wrap items-start w-full max-w-400 -m-4">
             <!-- Card #1 - Flippable card -->
             <fuse-card
-                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-2"
+                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-1"
                 [flippable]="true"
                 [face]="'front'"
                 #flippableCard01="fuseCard"
@@ -133,7 +133,7 @@
 
             <!-- Card #2 - Flippable card -->
             <fuse-card
-                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-2"
+                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-1"
                 [flippable]="true"
                 [face]="'front'"
                 #flippableCard02="fuseCard"
@@ -210,8 +210,73 @@
             </fuse-card>
 
             <fuse-card
-            class="flex flex-col max-w-80 w-full filter-article filter-interactive m-2"
-            #expandableCard01="fuseCard">
+                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-1"
+                #expandableCard01="fuseCard"
+            >
+                <img
+                    class="object-cover"
+                    style="height: 230px"
+                    src="https://images.unsplash.com/photo-1508138221679-760a23a2285b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Card cover image"
+                />
+                <div class="m-8 mb-4">
+                    <div class="text-2xl font-semibold leading-tight">
+                        Rocky mountain tops
+                    </div>
+                    <div class="text-secondary text-md mt-1">
+                        Updated with 20 new locations
+                    </div>
+                    <div class="mt-4">
+                        From rocky mountains to crystal clear lakes, there are
+                        the places you must see and enjoy.
+                    </div>
+                    <div class="mt-3 -mx-3">
+                        <button
+                            class="px-3"
+                            mat-button
+                            [color]="'primary'"
+                            (click)="
+                                expandableCard01.expanded =
+                                    !expandableCard01.expanded
+                            "
+                        >
+                            <span class="mr-1">Details</span>
+                            <mat-icon
+                                class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
+                                [ngClass]="{
+                                    'rotate-180': expandableCard01.expanded
+                                }"
+                                [svgIcon]="'heroicons_solid:chevron-down'"
+                            ></mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <ng-container fuseCardExpansion>
+                    <div class="m-8 mt-0">
+                        <div class="flex items-baseline">
+                            <div class="mr-2">Open now:</div>
+                            <div class="text-secondary">08:00AM - 09:00PM</div>
+                        </div>
+                        <div class="flex items-baseline mt-1">
+                            <div class="mr-2">Entrance fee:</div>
+                            <div class="text-secondary">$20 (USD)</div>
+                        </div>
+                        <div class="flex items-baseline">
+                            <div class="mr-2">Open now:</div>
+                            <div class="text-secondary">08:00AM - 09:00PM</div>
+                        </div>
+                        <div class="flex items-baseline mt-1">
+                            <div class="mr-2">Entrance fee:</div>
+                            <div class="text-secondary">$20 (USD)</div>
+                        </div>
+                    </div>
+                </ng-container>
+            </fuse-card>
+
+            <fuse-card
+            class="flex flex-col max-w-80 w-full filter-article filter-interactive m-1"
+            #expandableCard02="fuseCard">
             <img
                 class="object-cover"
                 style="height: 230px"
@@ -226,11 +291,11 @@
                         class="px-3"
                         mat-button
                         [color]="'primary'"
-                        (click)="expandableCard01.expanded = !expandableCard01.expanded">
+                        (click)="expandableCard02.expanded = !expandableCard02.expanded">
                         <span class="mr-1">Details</span>
                         <mat-icon
                             class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
-                            [ngClass]="{'rotate-180': expandableCard01.expanded}"
+                            [ngClass]="{'rotate-180': expandableCard02.expanded}"
                             [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
                     </button>
                 </div>
@@ -257,8 +322,6 @@
                 </div>
             </ng-container>
         </fuse-card>
-
-        
         </div>
     </div>
 </div>
