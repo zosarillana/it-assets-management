@@ -20,20 +20,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id: 'assets',
-        title: 'Assets',
+        title: 'Assets Details',
         subtitle: 'Asset inventory and details',
         type: 'group',
         icon: 'heroicons_outline:chart-pie',
         children: [
             {
                 id: 'assets.equipments',
-                title: 'Assets',
+                title: 'Assets Profile',
                 type: 'collapsable',
                 icon: 'heroicons_outline:desktop-computer',
                 children: [
                     {
                         id: 'assets.equitpments.inventory',
-                        title: 'Inventory',
+                        title: 'Inventory Cards',
                         type: 'basic',
                         icon: 'heroicons_outline:collection',
                         link: '/assets/inventory',
@@ -47,27 +47,49 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     },
                 ],
             },
+            {
+                id: 'assets.tables',
+                title: 'Asset Details',
+                type: 'collapsable',
+                icon: 'feather:tag',
+                children: [
+                    {
+                        id: 'assets.tables.pc',
+                        title: 'PC Specs',
+                        type: 'basic',
+                        icon: 'feather:monitor',
+                        link: '/assets/pc',
+                    },
+                    {
+                        id: 'assets.equitpments.inventory',
+                        title: 'Peripherals ',
+                        type: 'basic',
+                        icon: 'mat_outline:devices_other',
+                        link: '/assets/peripherals',
+                    },
+                ],
+            },
         ],
     },
     {
-        id: 'requests',
-        title: 'Requests',
+        id: 'data',
+        title: 'Data Table',
         subtitle: 'Requests and approvals',
         type: 'group',
         icon: 'heroicons_outline:chart-pie',
         children: [
             {
-                id: 'requests.data',
-                title: 'Data',
+                id: 'data.asset',
+                title: 'Asset Movement',
                 type: 'collapsable',
                 icon: 'heroicons_outline:desktop-computer',
                 children: [
                     {
-                        id: 'apps.ecommerce.inventory',
+                        id: 'data.asset.table',
                         title: 'Movement',
                         type: 'basic',
-                        icon: 'feather:navigation',
-                        link: '/requests/movement',
+                        icon: 'feather:tag',
+                        link: '/data/movement',
                     },
                 ],
             },

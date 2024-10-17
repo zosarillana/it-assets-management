@@ -18,6 +18,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { PcDetailsComponent } from '../pc/pc-details/pc-details.component';
+import { PeripheralsDetailsComponent } from '../peripherals/peripherals-details/peripherals-details.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 const assetRoute:Route[]=[
   {
@@ -28,16 +33,30 @@ const assetRoute:Route[]=[
     path: 'import-assets',
     component: ImportAssetsComponent
   },
+  {
+    path: 'pc',
+    component: PcDetailsComponent
+  },
+  {
+    path: 'peripherals',
+    component: PeripheralsDetailsComponent
+  },
 ];
 
 @NgModule({
   declarations: [
+    
     InventoryTableComponent,
     ImportAssetsComponent,
     AssetImportComponent,
-    AssetExportComponent
+    AssetExportComponent,
+    PcDetailsComponent,
+    PeripheralsDetailsComponent
   ],
   imports: [
+    MatSortModule,
+    MatTableModule,
+    MatPaginatorModule,
     MatButtonToggleModule,
     MatProgressBarModule,
     FuseCardModule,
