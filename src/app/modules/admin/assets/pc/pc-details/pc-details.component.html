@@ -50,12 +50,34 @@
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <!-- Import file button -->
             <!-- Hidden file input -->
-            <input type="file" accept=".csv" #fileInput style="display: none" />
+            <!-- Hidden file input for CSV files -->
+            <!-- <input
+                type="file"
+                accept=".csv"
+                #fileInput
+                (change)="onFileChange($event)"
+                style="display: none"
+            /> -->
+
+            <!-- Trigger button -->
+            <input
+                type="file"
+                accept=".xlsx"
+                #fileInput
+                (change)="onFileChange($event)"
+                style="display: none"
+            />
 
             <!-- Trigger button -->
             <button class="ml-4" mat-stroked-button (click)="fileInput.click()">
                 <mat-icon [svgIcon]="'feather:download'"></mat-icon>
-                <span class="ml-2 mr-1">Import CSV</span>
+                <span class="ml-2 mr-1">Import Excel</span>
+            </button>
+
+            <!-- Optionally, a button to upload the data -->
+            <button class="ml-4" mat-stroked-button (click)="uploadData()">
+                <mat-icon [svgIcon]="'feather:check'"></mat-icon>
+                <span class="ml-2 mr-1">Upload to DB</span>
             </button>
             <!-- <button class="ml-4" mat-stroked-button>
                 <mat-icon [svgIcon]="'feather:download'"></mat-icon>
@@ -66,7 +88,7 @@
 
     <!-- Main -->
     <div class="pt-0">
-        <div class="mat-elevation-z8 overflow-x-auto">
+        <div class="mat-elevation-z8 overflow-x-auto overflow-y-auto">
             <table
                 mat-table
                 [dataSource]="dataSource"
@@ -75,78 +97,344 @@
                 class="min-w-full bg-white rounded-lg shadow-md"
             >
                 <!-- Position Column -->
-                <ng-container matColumnDef="position">
+                <ng-container matColumnDef="accountable_user">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold"
                     >
-                        No.
+                        Accountable User
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-2"
                     >
-                        {{ element.position }}
+                        {{ element.accountable_user  }}
                     </td>
                 </ng-container>
 
                 <!-- Name Column -->
-                <ng-container matColumnDef="name">
+                <ng-container matColumnDef="bu">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold"
                     >
-                        Name
+                        Business Unit
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-2 pr-12"
                     >
-                        {{ element.name }}
+                        {{ element.bu }}
                     </td>
                 </ng-container>
 
                 <!-- Weight Column -->
-                <ng-container matColumnDef="weight">
+                <ng-container matColumnDef="department">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold"
                     >
-                        Weight
+                        Department
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-2"
                     >
-                        {{ element.weight }}
+                        {{ element.department }}
                     </td>
                 </ng-container>
 
                 <!-- Symbol Column -->
-                <ng-container matColumnDef="symbol">
+                <ng-container matColumnDef="date_acquired">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold"
                     >
-                        Symbol
+                        Date Acquired
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-2"
                     >
-                        {{ element.symbol }}
+                        {{ element.date_acquired }}
+                    </td>
+                </ng-container>
+
+                <!-- Inventory Tag Column -->
+                <ng-container matColumnDef="inventory_tag">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Inventory Tag
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.inventory_tag }}
+                    </td>
+                </ng-container>
+
+                <!-- Brand Column -->
+                <ng-container matColumnDef="brand">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Brand
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.brand }}
+                    </td>
+                </ng-container>
+
+                <!-- Type Column -->
+                <ng-container matColumnDef="type">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Type
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.type }}
+                    </td>
+                </ng-container>
+
+                <!-- Model Column -->
+                <ng-container matColumnDef="model">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Model
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.model }}
+                    </td>
+                </ng-container>
+
+                <!-- Processor Column -->
+                <ng-container matColumnDef="processor">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Processor
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.processor }}
+                    </td>
+                </ng-container>
+
+                <!-- Ram Column -->
+                <ng-container matColumnDef="ram">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Ram
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.ram }}
+                    </td>
+                </ng-container>
+
+                <!-- Storage capacity Column -->
+                <ng-container matColumnDef="storage_capacity">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Storage Capacity
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.storage_capacity }}
+                    </td>
+                </ng-container>
+
+                <!-- Storage Type Column -->
+                <ng-container matColumnDef="storage_type">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Storage Type
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.storage_type }}
+                    </td>
+                </ng-container>
+
+                <!-- Operating System Column -->
+                <ng-container matColumnDef="operating_system">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Operating System
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.operating_system }}
+                    </td>
+                </ng-container>
+
+                <!-- Graphics Column -->
+                <ng-container matColumnDef="graphics">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Graphics
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.graphics }}
+                    </td>
+                </ng-container>
+
+                <!-- Size Column -->
+                <ng-container matColumnDef="size">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Size
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.size }}
+                    </td>
+                </ng-container>
+
+                <!-- Color Column -->
+                <ng-container matColumnDef="color">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Color
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.color }}
+                    </td>
+                </ng-container>
+
+                <!-- Serial Number Column -->
+                <ng-container matColumnDef="serial_no">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Serial Number
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.serial_no }}
+                    </td>
+                </ng-container>
+
+                <!-- Location Column -->
+                <ng-container matColumnDef="location">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Location
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-2"
+                    >
+                        {{ element.location }}
                     </td>
                 </ng-container>
 
@@ -209,16 +497,15 @@
                     *matRowDef="let row; columns: displayedColumns"
                 ></tr>
             </table>
-
-            <!-- Paginator -->
-            <div>
-                <mat-paginator
-                    [pageSizeOptions]="[5, 10, 15, 20]"
-                    [pageSize]="15"
-                    showFirstLastButtons
-                    aria-label="Select page of periodic elements"
-                ></mat-paginator>
-            </div>
+        </div>
+        <!-- Paginator -->
+        <div>
+            <mat-paginator
+                [pageSizeOptions]="[10, 15, 20, 50, 100]"
+                [pageSize]="15"
+                showFirstLastButtons
+                aria-label="Select page of Assets PC"
+            ></mat-paginator>
         </div>
     </div>
 </div>
