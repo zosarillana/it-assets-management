@@ -58,27 +58,41 @@
                 (change)="onFileChange($event)"
                 style="display: none"
             /> -->
-
-            <!-- Trigger button -->
+            <mat-form-field
+            class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+        >
+            <mat-icon
+                matPrefix
+                class="icon-size-5"
+                [svgIcon]="'heroicons_solid:search'"
+            ></mat-icon>
             <input
+                matInput
+                placeholder="Search Inventory Tag"
+                (keyup)="applyInventoryTagFilter($event.target.value)"
+            />
+        </mat-form-field>
+            <!-- Trigger button -->
+            <!-- <input
                 type="file"
                 accept=".xlsx"
                 #fileInput
                 (change)="onFileChange($event)"
                 style="display: none"
-            />
+            /> -->
 
             <!-- Trigger button -->
-            <button class="ml-4" mat-stroked-button (click)="fileInput.click()">
+            <!-- <button class="ml-4" mat-stroked-button (click)="fileInput.click()">
                 <mat-icon [svgIcon]="'feather:download'"></mat-icon>
                 <span class="ml-2 mr-1">Import Excel</span>
-            </button>
+            </button> -->
 
             <!-- Optionally, a button to upload the data -->
-            <button class="ml-4" mat-stroked-button (click)="uploadData()">
+            <!-- <button class="ml-4" mat-stroked-button (click)="uploadData()">
                 <mat-icon [svgIcon]="'feather:check'"></mat-icon>
                 <span class="ml-2 mr-1">Upload to DB</span>
-            </button>
+            </button> -->
+
             <!-- <button class="ml-4" mat-stroked-button>
                 <mat-icon [svgIcon]="'feather:download'"></mat-icon>
                 <span class="ml-2 mr-1">Import CSV</span>
@@ -95,65 +109,29 @@
                 matSort
                 (matSortChange)="announceSortChange($event)"
                 class="min-w-full bg-white rounded-lg shadow-md"
-            >
-                <!-- Position Column -->
-                <ng-container matColumnDef="accountable_user">
+            >              
+                <ng-container matColumnDef="asset_barcode">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
-                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        class="px-12 py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
                     >
-                        Accountable User
+                        <mat-icon
+                            class="icon-size-4 mr-4"
+                            svgIcon="feather:tag"
+                        ></mat-icon>
+                        Asset Barcode
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
                     >
-                        {{ element.accountable_user  }}
+                        # {{ element.asset_barcode }}
                     </td>
                 </ng-container>
 
-                <!-- Name Column -->
-                <ng-container matColumnDef="bu">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-left text-gray-600 font-semibold"
-                    >
-                        Business Unit
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2 pr-12"
-                    >
-                        {{ element.bu }}
-                    </td>
-                </ng-container>
-
-                <!-- Weight Column -->
-                <ng-container matColumnDef="department">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-left text-gray-600 font-semibold"
-                    >
-                        Department
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
-                    >
-                        {{ element.department }}
-                    </td>
-                </ng-container>
-
-                <!-- Symbol Column -->
                 <ng-container matColumnDef="date_acquired">
                     <th
                         mat-header-cell
@@ -166,32 +144,30 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.date_acquired }}
                     </td>
                 </ng-container>
-
-                <!-- Inventory Tag Column -->
-                <ng-container matColumnDef="inventory_tag">
+               
+                <ng-container matColumnDef="pc_type">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold"
                     >
-                        Inventory Tag
+                        Unit Type
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2 pr-12"
                     >
-                        {{ element.inventory_tag }}
+                        {{ element.pc_type }}
                     </td>
                 </ng-container>
-
-                <!-- Brand Column -->
+                
                 <ng-container matColumnDef="brand">
                     <th
                         mat-header-cell
@@ -204,32 +180,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.brand }}
                     </td>
                 </ng-container>
-
-                <!-- Type Column -->
-                <ng-container matColumnDef="type">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-left text-gray-600 font-semibold"
-                    >
-                        Type
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
-                    >
-                        {{ element.type }}
-                    </td>
-                </ng-container>
-
-                <!-- Model Column -->
+             
                 <ng-container matColumnDef="model">
                     <th
                         mat-header-cell
@@ -242,13 +198,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.model }}
                     </td>
                 </ng-container>
-
-                <!-- Processor Column -->
+                
                 <ng-container matColumnDef="processor">
                     <th
                         mat-header-cell
@@ -261,13 +216,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.processor }}
                     </td>
                 </ng-container>
-
-                <!-- Ram Column -->
+                
                 <ng-container matColumnDef="ram">
                     <th
                         mat-header-cell
@@ -280,13 +234,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.ram }}
                     </td>
                 </ng-container>
-
-                <!-- Storage capacity Column -->
+               
                 <ng-container matColumnDef="storage_capacity">
                     <th
                         mat-header-cell
@@ -299,13 +252,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.storage_capacity }}
                     </td>
                 </ng-container>
-
-                <!-- Storage Type Column -->
+                
                 <ng-container matColumnDef="storage_type">
                     <th
                         mat-header-cell
@@ -318,13 +270,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.storage_type }}
                     </td>
                 </ng-container>
 
-                <!-- Operating System Column -->
                 <ng-container matColumnDef="operating_system">
                     <th
                         mat-header-cell
@@ -337,13 +288,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.operating_system }}
                     </td>
                 </ng-container>
-
-                <!-- Graphics Column -->
+             
                 <ng-container matColumnDef="graphics">
                     <th
                         mat-header-cell
@@ -356,13 +306,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.graphics }}
                     </td>
                 </ng-container>
-
-                <!-- Size Column -->
+              
                 <ng-container matColumnDef="size">
                     <th
                         mat-header-cell
@@ -375,13 +324,12 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.size }}
                     </td>
                 </ng-container>
-
-                <!-- Color Column -->
+                
                 <ng-container matColumnDef="color">
                     <th
                         mat-header-cell
@@ -394,13 +342,30 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.color }}
                     </td>
                 </ng-container>
-
-                <!-- Serial Number Column -->
+           
+                <ng-container matColumnDef="li_description">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Long Item Description
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
+                    >
+                        {{ element.li_description }}
+                    </td>
+                </ng-container>
+               
                 <ng-container matColumnDef="serial_no">
                     <th
                         mat-header-cell
@@ -413,30 +378,11 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
                     >
                         {{ element.serial_no }}
                     </td>
-                </ng-container>
-
-                <!-- Location Column -->
-                <ng-container matColumnDef="location">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-left text-gray-600 font-semibold"
-                    >
-                        Location
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-b border-gray-200 px-4 py-2"
-                    >
-                        {{ element.location }}
-                    </td>
-                </ng-container>
+                </ng-container>            
 
                 <!-- Action Column -->
                 <ng-container matColumnDef="action">
@@ -452,42 +398,36 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-2"
                     >
-                        <div class="flex space-x-2">
-                            <button
-                                mat-icon-button
-                                matRipple
-                                class="hover-effect"
-                                matRippleColor="#e1effd"
-                            >
+                        <button
+                            mat-icon-button
+                            [matMenuTriggerFor]="menu"
+                            aria-label="Example icon-button with a menu"
+                        >
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item>
                                 <mat-icon
-                                    class="z-10"
-                                    svgIcon="feather:eye"
-                                ></mat-icon>
+                                class="icon-size-4 mr-4"
+                                svgIcon="feather:eye"
+                            ></mat-icon>
+                                <span>View</span>
                             </button>
-
-                            <button
-                                mat-icon-button
-                                matRipple
-                                class="hover-effect"
-                                matRippleColor="#e1effd"
-                            >
+                            <button mat-menu-item disabled>
                                 <mat-icon
-                                    class="z-10"
-                                    svgIcon="feather:edit"
-                                ></mat-icon>
+                                class="icon-size-4 mr-4"
+                                svgIcon="feather:edit"
+                            ></mat-icon>
+                                <span>Edit</span>
                             </button>
-                            <button
-                                mat-icon-button
-                                matRipple
-                                class="hover-effect"
-                                matRippleColor="#e1effd"
-                            >
+                            <button mat-menu-item>
                                 <mat-icon
-                                    class="z-10"
-                                    svgIcon="feather:alert-circle"
-                                ></mat-icon>
+                                class="icon-size-4 mr-4"
+                                svgIcon="feather:delete"
+                            ></mat-icon>
+                                <span>Delete</span>
                             </button>
-                        </div>
+                        </mat-menu>
                     </td>
                 </ng-container>
 

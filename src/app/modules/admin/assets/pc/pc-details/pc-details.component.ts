@@ -14,13 +14,10 @@ import * as XLSX from 'xlsx'; // Keep this for XLSX handling
 })
 export class PcDetailsComponent implements OnInit {
     displayedColumns: string[] = [
-        'accountable_user',
-        'bu',
-        'department',
+        'asset_barcode',
         'date_acquired',
-        'inventory_tag',
+        'pc_type',
         'brand',
-        'type',
         'model',
         'processor',
         'ram',
@@ -30,9 +27,9 @@ export class PcDetailsComponent implements OnInit {
         'graphics',
         'size',
         'color',
-        'serial_no',
-        'location',
-        'action',
+        'li_description',
+        'serial_no',      
+        'action',      
     ];
     dataSource = new MatTableDataSource<any>([]); // Initialize with an empty array
     data: any[] = [];
@@ -63,16 +60,15 @@ export class PcDetailsComponent implements OnInit {
     }
 
     loadItots(): void {
-      this.itotService.getItots().subscribe((result: ItotPc[]) => {
-          // After receiving data, assign it to the MatTableDataSource
-          this.dataSource = new MatTableDataSource(result);
-          
-          // Assign the paginator and sort after data is loaded
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-      });
-  }
-  
+        this.itotService.getItots().subscribe((result: ItotPc[]) => {
+            // After receiving data, assign it to the MatTableDataSource
+            this.dataSource = new MatTableDataSource(result);
+
+            // Assign the paginator and sort after data is loaded
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+        });
+    }
 
     onFileChange(event: any) {
         const target: DataTransfer = <DataTransfer>event.target;
@@ -133,26 +129,23 @@ export class PcDetailsComponent implements OnInit {
         }
 
         // Format the data for upload
-        const formattedData = this.data.slice(1).map((row: any[]) => ({
-            accountable_user: String(row[0] || 'N/A'), // Convert to string
-            bu: String(row[1] || 'N/A'),
-            department: String(row[2] || 'N/A'),
-            date_acquired: String(this.excelDateToString(row[3])) || 'N/A', // Ensure this is a string
-            inventory_tag: String(row[4] || 'N/A'),
-            brand: String(row[5] || 'N/A'),
-            type: String(row[6] || 'N/A'),
-            model: String(row[7] || 'N/A'),
-            processor: String(row[8] || 'N/A'),
-            ram: String(row[9] || 'N/A'),
-            storage_capacity: String(row[10] || 'N/A'), // Convert to string
-            storage_type: String(row[11] || 'N/A'),
-            operating_system: String(row[12] || 'N/A'),
-            graphics: String(row[13] || 'N/A'),
-            size: String(row[14] || 'N/A'), // Ensure this is a string
-            color: String(row[15] || 'N/A'),
-            serial_no: String(row[16] || 'N/A'),
-            location: String(row[17] || 'N/A'),
-        }));
+        const formattedData = this.data.slice(2).map((row: any[]) => ({
+            asset_barcode: String(row[0] || "N/A"),
+            date_acquired: String(row[1] || "N/A"),
+            pc_type: String(row[2] || "N/A"),
+            brand: String(this.excelDateToString(row[3])) || "N/A",
+            model: String(row[4] || "N/A"),
+            processor: String(row[5] || "N/A"),
+            ram: String(row[6] || "N/A"),
+            storage_capacity: String(row[7] || "N/A"),
+            storage_type: String(row[8] || "N/A"),
+            operating_system: String(row[9] || "N/A"),
+            graphics: String(row[10] || "N/A"),
+            size: String(row[11] || "N/A"),
+            color: String(row[12] || "N/A"),
+            li_description: String(row[13] || "N/A"),
+            serial_no: String(row[14] || "N/A"),  
+          }));
 
         // Check the final data structure
         console.log(
@@ -178,14 +171,24 @@ export class PcDetailsComponent implements OnInit {
 
     ngOnInit(): void {
         // Any initialization logic can be added here
-        this.loadItots();          
+        this.loadItots();
     }
 
-    
     ngAfterViewInit() {
         // Ensure paginator is assigned after view initialization
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+
+    // Method to filter based on Inventory Tag
+    applyInventoryTagFilter(filterValue: string) {
+        this.dataSource.filterPredicate = (data: any, filter: string) => {
+            return data.asset_barcode
+                .toLowerCase()
+                .includes(filter.toLowerCase());
+        };
+
+        this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
     /** Announce the change in sort state for assistive technology. */

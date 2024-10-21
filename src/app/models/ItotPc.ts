@@ -1,12 +1,9 @@
 export class ItotPc {
     id?: number;
-    accountable_user = '';
-    bu = '';
-    department = '';    
+    asset_barcode = '';
     date_acquired = '';
-    inventory_tag = '';
+    pc_type = '';    
     brand = '';
-    type = '';
     model = '';
     processor = '';
     ram = '';
@@ -16,8 +13,8 @@ export class ItotPc {
     graphics = '';
     size = '';
     color = '';
-    serial_no = '';
-    location = '';
+    li_description = '';
+    serial_no = '';      
     date_created = '';
     date_updated = '';   
   }

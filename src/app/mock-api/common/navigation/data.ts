@@ -54,6 +54,28 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'feather:tag',
                 children: [
                     {
+                        id: 'assets.cards.user',
+                        title: 'Cards Details',
+                        type: 'collapsable',
+                        icon: 'mat_outline:article',         
+                        children:[
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'User Card',
+                                type: 'basic',
+                                 icon: 'feather:user',
+                                link: '/assets/cards/user',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Desktop Card',
+                                type: 'basic',
+                                 icon: 'feather:monitor',
+                                link: '/assets/cards/pc',
+                            },
+                        ]             
+                    },
+                    {
                         id: 'assets.tables.pc',
                         title: 'PC Specs',
                         type: 'basic',

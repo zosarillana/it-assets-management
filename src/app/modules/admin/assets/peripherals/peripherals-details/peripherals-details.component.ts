@@ -3,6 +3,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ItotPeripheral } from 'app/models/ItotPeripheral';
+import { ITOTService } from 'app/services/itot.service';
 
 @Component({
   selector: 'app-peripherals-details',
@@ -11,26 +13,61 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PeripheralsDetailsComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = [
+    'asset_barcode',
+    'date_acquired',
+    'brand',
+    'model',
+    'peripheral_type',    
+    'size',
+    'color',
+    'li_description',
+    'serial_no',   
+    'action',   
+  ];
+  
+  dataSource = new MatTableDataSource<any>([]); // Initialize with an empty array
+  data: any[] = [];
+
+  constructor(
+    private _liveAnnouncer: LiveAnnouncer,
+    private itotService: ITOTService
+  ) {}
+
+  // Helper function to convert Excel date serial to a string
+
+  // Load data from service
+// peripherals-details.component.ts
+loadItots(): void {
+  this.itotService.getItotPeripherals().subscribe((result: ItotPeripheral[]) => {
+    this.dataSource = new MatTableDataSource(result);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  });
+}
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
-
   ngOnInit(): void {
-    // Any initialization logic can be added here
+    this.loadItots();
   }
 
   ngAfterViewInit() {
-    // Ensure paginator is assigned after view initialization
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  
-   /** Announce the change in sort state for assistive technology. */
-   announceSortChange(sortState: Sort) {
+
+  // Method to filter based on Inventory Tag
+  applyInventoryTagFilter(filterValue: string) {
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      return data.asset_barcode.toLowerCase().includes(filter.toLowerCase());
+    };
+
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
@@ -38,34 +75,3 @@ export class PeripheralsDetailsComponent implements OnInit {
     }
   }
 }
-
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];

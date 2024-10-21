@@ -47,3 +47,29 @@
         display: block; /* Stacks table cells on smaller screens */
     }
 }
+
+//Inventory Tag
+/* Set width and margins for the Inventory Tag column */
+.inventory-tag-header {
+    width: 200px; /* Set the width of the header cell */
+  }
+  
+  .inventory-tag-cell {
+    width: 200px; /* Set the width of the cell */
+    padding-right: 10px; /* Adjust right padding */
+  }
+  
+  /* Set different column widths for other columns */
+  .accountable-user-header {
+    width: 150px; /* Adjust width for Accountable User header */
+  }
+  
+  .accountable-user-cell {
+    width: 150px; /* Adjust width for Accountable User cell */
+  }
+  
+  /* Customize the whole table width */
+  table.mat-table {
+    width: 100%; /* Set the table width to 100% of its container */
+  }
+  

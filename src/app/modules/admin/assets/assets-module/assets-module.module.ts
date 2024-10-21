@@ -24,6 +24,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { ImportPeripheralsComponent } from '../import/import-assets/import-peripherals/import-peripherals.component';
+import { MatInputModule } from '@angular/material/input';
 
 const assetRoute:Route[]=[
   {
@@ -73,6 +74,8 @@ const assetRoute:Route[]=[
     MatDividerModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatInputModule,
+    MatMenuModule,
     RouterModule.forChild(assetRoute)
   ]
 })
