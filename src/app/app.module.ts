@@ -12,6 +12,8 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+import { UserCardComponent } from './modules/admin/assets/cards/user-card/user-card.component';
+import { PcCardComponent } from './modules/admin/assets/cards/pc-card/pc-card.component';
 
 
 const routerConfig: ExtraOptions = {
@@ -20,7 +22,7 @@ const routerConfig: ExtraOptions = {
 };
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, UserCardComponent, PcCardComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
