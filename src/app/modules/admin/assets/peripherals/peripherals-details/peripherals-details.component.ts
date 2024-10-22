@@ -25,8 +25,8 @@ export class PeripheralsDetailsComponent implements OnInit {
     'serial_no',   
     'action',   
   ];
-  
-  dataSource = new MatTableDataSource<any>([]); // Initialize with an empty array
+
+  dataSource = new MatTableDataSource<any>([]);
   data: any[] = [];
 
   constructor(
@@ -34,17 +34,13 @@ export class PeripheralsDetailsComponent implements OnInit {
     private itotService: ITOTService
   ) {}
 
-  // Helper function to convert Excel date serial to a string
-
-  // Load data from service
-// peripherals-details.component.ts
-loadItots(): void {
-  this.itotService.getItotPeripherals().subscribe((result: ItotPeripheral[]) => {
-    this.dataSource = new MatTableDataSource(result);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  });
-}
+  loadItots(): void {
+    this.itotService.getItotPeripherals().subscribe((result: ItotPeripheral[]) => {
+      this.dataSource = new MatTableDataSource(result);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -58,7 +54,6 @@ loadItots(): void {
     this.dataSource.sort = this.sort;
   }
 
-  // Method to filter based on Inventory Tag
   applyInventoryTagFilter(filterValue: string) {
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       return data.asset_barcode.toLowerCase().includes(filter.toLowerCase());

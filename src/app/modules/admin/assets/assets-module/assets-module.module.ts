@@ -25,6 +25,17 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { ImportPeripheralsComponent } from '../import/import-assets/import-peripherals/import-peripherals.component';
 import { MatInputModule } from '@angular/material/input';
+import { PcCardComponent } from '../cards/pc-card/pc-card.component';
+import { UserCardComponent } from '../cards/user-card/user-card.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { ModalCreateUserAddComponent } from '../components/modal/modal-create-user-add/modal-create-user-add.component';
+import { ModalUniversalComponent } from '../components/modal/modal-universal/modal-universal.component';
+import { SidePanelPcsComponent } from '../components/side-panel/side-panel-pcs/side-panel-pcs.component';
+import { SidePanelPeripheralsComponent } from '../components/side-panel/side-panel-peripherals/side-panel-peripherals.component';
+import { MatChipsModule} from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const assetRoute:Route[]=[
   {
@@ -43,11 +54,25 @@ const assetRoute:Route[]=[
     path: 'peripherals',
     component: PeripheralsDetailsComponent
   },
+  {
+    path: 'cards/users',
+    component: UserCardComponent
+  },
+  {
+    path: 'cards/pcs',
+    component: PcCardComponent
+  },
 ];
 
 @NgModule({
   declarations: [
-    
+    SidePanelPeripheralsComponent,
+    SidePanelPcsComponent,
+    SidePanelPeripheralsComponent,
+    ModalUniversalComponent,
+    ModalCreateUserAddComponent,
+    PcCardComponent,
+    UserCardComponent,
     InventoryTableComponent,
     ImportAssetsComponent,
     ImportPeripheralsComponent,
@@ -56,7 +81,15 @@ const assetRoute:Route[]=[
     PcDetailsComponent,
     PeripheralsDetailsComponent
   ],
-  imports: [
+  imports: [     
+    MatIconModule,
+    MatChipsModule,
+    MatAutocompleteModule,    
+    MatChipsModule,
+    MatStepperModule,  
+    ReactiveFormsModule, 
+    FormsModule,    
+    MatDialogModule,
     MatSortModule,
     MatTableModule,
     MatPaginatorModule,
@@ -76,6 +109,7 @@ const assetRoute:Route[]=[
     MatSelectModule,
     MatInputModule,
     MatMenuModule,
+    
     RouterModule.forChild(assetRoute)
   ]
 })

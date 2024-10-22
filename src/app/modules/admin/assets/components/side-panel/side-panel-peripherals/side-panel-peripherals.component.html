@@ -1,0 +1,17 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      #sidenav
+      mode="push"
+      position="end" 
+      [(opened)]="isSidenavOpen"
+    >
+      <h2>Sidenav Content</h2>
+      <p>This is where your detailed view content goes.</p>
+      <button mat-button (click)="closeSidenav()">Close</button>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

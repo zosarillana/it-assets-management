@@ -1,4 +1,5 @@
 <div class="flex flex-col flex-auto min-w-0">
+    <app-side-panel-peripherals #sidePanel>
     <!-- Header -->
     <div
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
@@ -406,13 +407,16 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item>
-                                <mat-icon
+                            <button
+                            mat-menu-item
+                            (click)="sidePanel.openSidenav()"
+                        >
+                            <mat-icon
                                 class="icon-size-4 mr-4"
                                 svgIcon="feather:eye"
                             ></mat-icon>
-                                <span>View</span>
-                            </button>
+                            <span>View</span>
+                        </button>
                             <button mat-menu-item disabled>
                                 <mat-icon
                                 class="icon-size-4 mr-4"
@@ -448,4 +452,5 @@
             ></mat-paginator>
         </div>
     </div>
+    </app-side-panel-peripherals>
 </div>
