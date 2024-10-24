@@ -15,8 +15,16 @@ export class ITOTService {
     return this.http.get<ItotPc[]>(`${this.url}/Itot/pc`);
   }
 
+  public getItotsBarcode(): Observable<ItotPc[]> {
+    return this.http.get<ItotPc[]>(`${this.url}/Itot/pc/barcode`);
+  }
+
   public getItotPeripherals(): Observable<ItotPeripheral[]> {
     return this.http.get<ItotPeripheral[]>(`${this.url}/Itot/peripherals`);
+  }
+
+  public getItotPeripheralsBarcode(): Observable<ItotPeripheral[]> {
+    return this.http.get<ItotPeripheral[]>(`${this.url}/Itot/peripherals/barcode`);
   }
 
   uploadExcelData(data: any[]): Observable<any> {
@@ -26,5 +34,4 @@ export class ITOTService {
   uploadExcelDataPeripherals(data: any[]): Observable<any> {
     return this.http.post(`${this.url}/ImportItot/update/peripherals`, data);
   }
-
 }

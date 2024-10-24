@@ -3,6 +3,7 @@
 <form
     class="bg-card rounded overflow-hidden"
     [formGroup]="horizontalStepperForm"
+    (ngSubmit)="submitForm()" 
 >
     <mat-horizontal-stepper [linear]="true" #horizontalStepper>
         <mat-step
@@ -40,24 +41,7 @@
                         matPrefix
                         [svgIcon]="'mat_solid:person'"
                     ></mat-icon>
-                </mat-form-field>
-                <!-- <mat-form-field class="flex-auto gt-xs:pr-3">
-                    <mat-select
-                        [formControlName]="'country'"
-                        [placeholder]="'Country / Region'"
-                        required
-                    >
-                        <mat-option value="country-1">Country 1</mat-option>
-                        <mat-option value="country-2">Country 2</mat-option>
-                        <mat-option value="country-3">Country 3</mat-option>
-                    </mat-select>
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:location-marker'"
-                    ></mat-icon>
-                </mat-form-field> -->
-
+                </mat-form-field>           
                 <mat-form-field class="flex-auto">
                     <input
                         matInput
@@ -71,23 +55,7 @@
                         [svgIcon]="'mat_solid:info'"
                     ></mat-icon>
                     <span matPrefix>000-000/</span>
-                </mat-form-field>
-                <!-- <mat-form-field class="flex-auto gt-xs:pl-3">
-                    <mat-select
-                        [formControlName]="'language'"
-                        [placeholder]="'Language'"
-                        required
-                    >
-                        <mat-option value="language-1">Language 1</mat-option>
-                        <mat-option value="language-2">Language 2</mat-option>
-                        <mat-option value="language-3">Language 3</mat-option>
-                    </mat-select>
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:translate'"
-                    ></mat-icon>
-                </mat-form-field> -->
+                </mat-form-field>             
                 <mat-form-field class="flex-auto">
                     <input
                         matInput
@@ -167,40 +135,31 @@
                         matPrefix
                         [svgIcon]="'mat_solid:location_on'"
                     ></mat-icon>
-                    <!-- <span matPrefix>January 1 2024/</span> -->
                 </mat-form-field>
             </div>
             <div class="flex">
                 <mat-form-field class="flex-auto">
                     <input
                         matInput
+                        [matDatepicker]="picker"
                         [formControlName]="'date_assigned'"
-                        [placeholder]="'Date Assigned'"
+                        placeholder="Date Assigned"
+                        (click)="picker.open()"
                         required
                     />
                     <mat-icon
-                        class="icon-size-5"
                         matPrefix
-                        [svgIcon]="'mat_solid:calendar_today'"
-                    ></mat-icon>
-                    <span matPrefix>January 1 2024/</span>
-                </mat-form-field>
-            </div>
-            <!-- <div class="flex">
-                <mat-form-field class="fuse-mat-textarea flex-auto">
-                    <textarea
-                        matInput
-                        [formControlName]="'about'"
-                        [placeholder]="'About'"
-                        [rows]="3"
-                    ></textarea>
-                    <mat-icon
                         class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:menu-alt-2'"
-                    ></mat-icon>
+                        (click)="picker.open()"
+                    >
+                        calendar_today
+                    </mat-icon>
+                    <span matPrefix (click)="picker.open()">
+                        ex. 01/30/2024 /
+                    </span>
+                    <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
-            </div> -->
+            </div>        
             <div class="flex justify-end">
                 <button
                     class="px-8 mr-2"
@@ -234,138 +193,95 @@
             <ng-template matStepLabel>Assign Assets</ng-template>
             <p class="my-6 font-medium">Select Assets to Assign</p>
             <div class="flex flex-col gt-sm:flex-row">
-                <!-- <div class="flex flex-col">
-                    <span class="font-medium mb-2">By Email</span>
-                    <div class="flex flex-col" [formGroupName]="'byEmail'">
-                        <mat-checkbox
-                            class="mb-1"
-                            [color]="'primary'"
-                            [formControlName]="'companyNews'"
-                        >
-                            Company News
-                        </mat-checkbox>
-                        <mat-checkbox
-                            class="mb-1"
-                            [color]="'primary'"
-                            [formControlName]="'featuredProducts'"
-                        >
-                            Featured Products
-                        </mat-checkbox>
-                        <mat-checkbox
-                            [color]="'primary'"
-                            [formControlName]="'messages'"
-                        >
-                            Messages
-                        </mat-checkbox>
-                    </div>
-                </div> -->
-
                 <mat-form-field class="example-chip-list custom-chip-list">
                     <mat-label>Assign PC / Laptop</mat-label>
-
-                    <!-- Chips List -->
-                    <mat-chip-list #chipList2 aria-label="Fruit selection">
+                    <mat-chip-list #chipList2 aria-label="PC selection">
                         <mat-chip
-                            *ngFor="let pc of pcs"
+                            *ngFor="let pc of selectedPcs"
                             (removed)="removePc(pc)"
                         >
-                            {{ pc }}
+                            {{ pc.asset_barcode }} {{ pc.id }}
                             <button
                                 matChipRemove
-                                [attr.aria-label]="'remove ' + pc"
+                                [attr.aria-label]="'remove ' + pc.asset_barcode"
                             >
                                 <mat-icon>cancel</mat-icon>
                             </button>
                         </mat-chip>
                     </mat-chip-list>
-
-                    <!-- Input placed after the chip list -->
                     <input
                         [formControlName]="'assign_pc'"
                         name="currentPc"
-                        placeholder="New Fruit..."
-                        #fruitInput
-                        [(ngModel)]="currentPc"
-                        [matChipInputFor]="chipList"
-                        [matAutocomplete]="auto"
+                        placeholder="New PC..."
+                        #pcInput
+                        [matChipInputFor]="chipList2"
+                        [matAutocomplete]="pcAuto"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (input)="filterPCs($event.target.value)"
                         (matChipInputTokenEnd)="addPc($event)"
                     />
-
                     <mat-autocomplete
-                        #auto="matAutocomplete"
+                        #pcAuto="matAutocomplete"
                         (optionSelected)="selectedPc($event)"
                     >
-                        <mat-option *ngFor="let pc of filteredPcs" [value]="pc">
-                            {{ pc }}
+                        <mat-option
+                            *ngFor="let pc of filteredPcs"
+                            [value]="pc.asset_barcode"
+                        >
+                            {{ pc.asset_barcode }}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
 
+                <!-- Assign Peripherals -->
                 <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
-                    <!-- <span class="font-medium mb-2">Push Notifications</span>
-                    <mat-radio-group
-                        class="flex flex-col"
-                        [color]="'primary'"
-                        [formControlName]="'pushNotifications'"
-                    >
-                        <mat-radio-button class="mb-2" [value]="'everything'">
-                            Everything
-                        </mat-radio-button>
-                        <mat-radio-button class="mb-2" [value]="'just-good'">
-                            Just the good stuff
-                        </mat-radio-button>
-                        <mat-radio-button [value]="'no-push'">
-                            No push notifications
-                        </mat-radio-button>
-                    </mat-radio-group> -->
-
                     <mat-form-field class="example-chip-list custom-chip-list">
                         <mat-label>Assign Peripherals</mat-label>
-
-                        <!-- Chips List -->
-                        <mat-chip-list #chipList aria-label="Fruit selection">
+                        <mat-chip-list
+                            #chipList
+                            aria-label="Peripheral selection"
+                        >
                             <mat-chip
-                                *ngFor="let fruit of fruits"
+                                *ngFor="let fruit of selectedPeris"
                                 (removed)="remove(fruit)"
                             >
-                                {{ fruit }}
+                                {{ fruit.id }}
                                 <button
                                     matChipRemove
-                                    [attr.aria-label]="'remove ' + fruit"
+                                    [attr.aria-label]="
+                                        'remove ' + fruit.asset_barcode
+                                    "
                                 >
                                     <mat-icon>cancel</mat-icon>
                                 </button>
                             </mat-chip>
                         </mat-chip-list>
-
-                        <!-- Input placed after the chip list -->
                         <input
-                            [formControlName]="'assign_laptop   '"
+                            [formControlName]="'assign_peripherals'"
                             name="currentFruit"
-                            placeholder="New Fruit..."
+                            placeholder="New Peripheral..."
                             #fruitInput
-                            [(ngModel)]="currentFruit"
                             [matChipInputFor]="chipList"
-                            [matAutocomplete]="auto"
+                            [matAutocomplete]="fruitAuto"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (input)="filterFruits($event.target.value)"
                             (matChipInputTokenEnd)="add($event)"
                         />
-
                         <mat-autocomplete
-                            #auto="matAutocomplete"
-                            (optionSelected)="selected($event)"
+                            #fruitAuto="matAutocomplete"
+                            (optionSelected)="selectedPeripherals($event)"
                         >
                             <mat-option
                                 *ngFor="let fruit of filteredFruits"
-                                [value]="fruit"
+                                [value]="fruit.asset_barcode"
                             >
-                                {{ fruit }}
+                                {{ fruit.asset_barcode }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
                 </div>
             </div>
+
             <div class="flex justify-end mt-8">
                 <button
                     class="px-8 mr-2"
@@ -409,11 +325,22 @@
                     mat-flat-button
                     [color]="'primary'"
                     type="reset"
-                    (click)="horizontalStepper.reset()"
+                    (click)="submitForm()"
                 >
                     Submit
                 </button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>
+
+    <!-- Final submit button for form -->
+    <!-- <div class="flex justify-end mt-8">
+        <button
+            mat-raised-button
+            color="primary"
+            type="submit" 
+        >
+            Submit All Information
+        </button>
+    </div> -->
 </form>

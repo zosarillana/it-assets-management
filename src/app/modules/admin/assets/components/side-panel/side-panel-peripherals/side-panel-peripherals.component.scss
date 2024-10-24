@@ -1,8 +1,21 @@
 .sidenav-container {
-    height: 100%; /* Full height to ensure proper layout */
-  }
-  
+  height: 100%; /* Full height to ensure proper layout */
+}
+
+mat-sidenav {
+  width:30%; /* Default width */
+}
+
+/* Media query for small screens */
+@media (max-width: 600px) { /* Small screens */
   mat-sidenav {
-    width: 25%; /* Adjust the width as needed */
+    width: 90%; /* Width for small screens */
   }
-  
+}
+
+/* Media query for medium screens */
+@media (min-width: 601px) and (max-width: 900px) { /* Medium screens */
+  mat-sidenav {
+    width: 50%; /* Width for medium screens */
+  }
+}

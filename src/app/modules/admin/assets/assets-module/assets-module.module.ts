@@ -36,6 +36,8 @@ import { SidePanelPcsComponent } from '../components/side-panel/side-panel-pcs/s
 import { SidePanelPeripheralsComponent } from '../components/side-panel/side-panel-peripherals/side-panel-peripherals.component';
 import { MatChipsModule} from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 const assetRoute:Route[]=[
   {
@@ -82,6 +84,8 @@ const assetRoute:Route[]=[
     PeripheralsDetailsComponent
   ],
   imports: [     
+    MatMomentDateModule,
+    MatDatepickerModule,
     MatIconModule,
     MatChipsModule,
     MatAutocompleteModule,    
