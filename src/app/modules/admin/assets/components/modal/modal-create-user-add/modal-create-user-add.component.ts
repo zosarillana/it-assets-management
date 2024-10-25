@@ -205,19 +205,19 @@ export class ModalCreateUserAddComponent implements OnInit {
         const cardData = {
             step1: {
                 contact_no: step1.contact_no,
-                employee_id: step1.employee_id,
-                firstname: step1.firstname,
-                lastname: step1.lastname,
+                emp_id: step1.employee_id,
+                firstName: step1.firstname,
+                lastName: step1.lastname,
             },
             step2: {
-                company: step2.company,
+                company_name: step2.company,
                 date_assigned: step2.date_assigned,
-                department: step2.department,
+                dept_name: step2.department,
                 location: step2.location,
             },
             step3: {
-                assign_laptop: selectedPcIds,
-                assign_peripherals: selectedPeripheralIds,
+                pc_id: selectedPcIds,
+                peripheral_id: selectedPeripheralIds,
             },
             selectedPeripherals: this.selectedPeris,
             selectedPcs: this.selectedPcs,

@@ -4,7 +4,7 @@ export class CardPcs {
     lastName = '';
     emp_id = '';
     contact_no = '';
-    dept_no = '';
+    dept_name = '';
     company_name = '';
     location = '';
     date_assigned = '';
