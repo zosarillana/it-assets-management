@@ -8,8 +8,8 @@ export class CardPcs {
     company_name = '';
     location = '';
     date_assigned = '';
-    pc_id: string[] = [];
-    peripheral_id: string[] = [];
+    pc_id: '';
+    peripheral_id: ''
     date_created = '';
     date_updated = '';
     pcs: Array<{
@@ -27,6 +27,8 @@ export class CardPcs {
         size : string;
         li_description  : string;
         serial_no  : string;
+        status: string;
+        history: string;        
         date_created   : string;
         date_updated  : string;
     }> = [];
@@ -41,6 +43,8 @@ export class CardPcs {
         size : string;
         li_description  : string;
         serial_no  : string;
+        status: string;
+        history: string;        
         date_created   : string;
         date_updated  : string;
     }> = [];  

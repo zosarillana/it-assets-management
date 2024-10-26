@@ -38,6 +38,8 @@ import { MatChipsModule} from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { SharedModule } from 'app/shared/shared.module';
+import { FuseHighlightModule } from '@fuse/components/highlight';
 
 const assetRoute:Route[]=[
   {
@@ -69,8 +71,7 @@ const assetRoute:Route[]=[
 @NgModule({
   declarations: [
     SidePanelPeripheralsComponent,
-    SidePanelPcsComponent,
-    SidePanelPeripheralsComponent,
+    SidePanelPcsComponent,    
     ModalUniversalComponent,
     ModalCreateUserAddComponent,
     PcCardComponent,
@@ -83,7 +84,10 @@ const assetRoute:Route[]=[
     PcDetailsComponent,
     PeripheralsDetailsComponent
   ],
-  imports: [     
+  imports: [  
+    MatDividerModule,
+    SharedModule,
+    FuseHighlightModule,   
     MatMomentDateModule,
     MatDatepickerModule,
     MatIconModule,

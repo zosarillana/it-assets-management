@@ -1,17 +1,18 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav
-      #sidenav
-      mode="push"
-      position="end" 
-      [(opened)]="isSidenavOpen"
-    >
-      <h2>Sidenav Content</h2>
-      <p>This is where your detailed view content goes.</p>
-      <button mat-button (click)="closeSidenav()">Close</button>
-    </mat-sidenav>
-  
-    <mat-sidenav-content>
+  <mat-sidenav #sidenav mode="push" position="end" [(opened)]="isSidenavOpen">
+      <h2 class="text-xl text-center font-bold m-4">Sidenav Content</h2>
+      <div class="w-64  rounded-lg overflow-hidden mx-auto">
+          <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqswQ86aHrrf6-0QMAtH-oGmeiOUntgXxWIg&s"
+              alt="Sidenav Image"
+              class="w-full "
+          />
+      </div>
+      <mat-divider class="m-6"></mat-divider>
+      <p class="m-4">This is where your detailed view content goes.</p>
+      <button class="m-4" mat-button (click)="closeSidenav()">Close</button>
+  </mat-sidenav>
+  <mat-sidenav-content>
       <ng-content></ng-content>
-    </mat-sidenav-content>
+  </mat-sidenav-content>
 </mat-sidenav-container>
-  

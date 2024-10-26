@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ITOTService } from 'app/services/itot.service';
-import { ItotPc } from 'app/models/ItotPc'; // Ensure this model has asset_barcode defined
-import { ItotPeripheral } from 'app/models/ItotPeripheral'; // Import your ItotPeripheral model
+import { ItotPc } from 'app/models/ItotPc';
+import { ItotPeripheral } from 'app/models/ItotPeripheral';
 import { CardService } from 'app/services/card.service';
-import { Observable } from 'rxjs'; // Don't forget to import Observable
+import { MatDialogRef } from '@angular/material/dialog'; 
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector: 'app-modal-create-user-add',
@@ -13,26 +14,28 @@ import { Observable } from 'rxjs'; // Don't forget to import Observable
     styleUrls: ['./modal-create-user-add.component.scss'],
 })
 export class ModalCreateUserAddComponent implements OnInit {
+    configForm: FormGroup;
     isLinear = false;
     horizontalStepperForm: FormGroup;
 
     fruits: ItotPeripheral[] = [];
     filteredFruits: ItotPeripheral[] = [];
     selectedPeris: ItotPeripheral[] = [];
-    currentFruit = ''; // For input binding
+    currentFruit = '';
 
     pcs: ItotPc[] = [];
     filteredPcs: ItotPc[] = [];
     selectedPcs: ItotPc[] = [];
     currentPc = '';
 
-    // Separator key codes for chip input
     separatorKeysCodes: number[] = [ENTER, COMMA];
 
     constructor(
         private _formBuilder: FormBuilder,
         private itotService: ITOTService,
-        private cardService: CardService 
+        private cardService: CardService,
+        private dialogRef: MatDialogRef<ModalCreateUserAddComponent>, 
+        private _fuseConfirmationService: FuseConfirmationService 
     ) {}
 
     ngOnInit() {
@@ -55,12 +58,33 @@ export class ModalCreateUserAddComponent implements OnInit {
             }),
         });
 
-        // Fetch and initialize the barcode data
+        // Build the confirmation dialog config form
+        this.configForm = this._formBuilder.group({
+            title: 'Submit Confirmation',
+            message: 'Are you sure you want to submit this form? <span class="font-medium">This action cannot be undone!</span>',
+            icon: this._formBuilder.group({
+                show: true,
+                name: 'feather:check',
+                color: 'primary'
+            }),
+            actions: this._formBuilder.group({
+                confirm: this._formBuilder.group({
+                    show: true,
+                    label: 'Submit',
+                    color: 'primary'
+                }),
+                cancel: this._formBuilder.group({
+                    show: true,
+                    label: 'Cancel'
+                })
+            }),
+            dismissible: true
+        });
+
         this.loadBarcodes();
     }
 
     loadBarcodes() {
-        // Get ITOT Barcodes for PCs
         this.itotService.getItots().subscribe(
             (barcodes: ItotPc[]) => {
                 this.pcs = barcodes.filter((pc) => pc.asset_barcode != null);
@@ -70,7 +94,7 @@ export class ModalCreateUserAddComponent implements OnInit {
                 console.error('Error fetching ITOT barcodes:', error);
             }
         );
-     
+
         this.itotService.getItotPeripherals().subscribe(
             (barcodes: ItotPeripheral[]) => {
                 this.fruits = barcodes.filter(
@@ -84,70 +108,46 @@ export class ModalCreateUserAddComponent implements OnInit {
         );
     }
 
-    // add(event: any): void {
-    //     const input = event.input;
-    //     const value = event.value;
-    
-    //     // Check if the input value is not empty and the selected peripheral is not already included
-    //     if ((value || '').trim()) {
-    //         const newPeripheral = this.fruits.find(
-    //             peripheral => peripheral.asset_barcode === value.trim()
-    //         );
-    
-    //         // Ensure the peripheral exists and is not already selected
-    //         if (newPeripheral && !this.selectedPeris.includes(newPeripheral)) {
-    //             this.selectedPeris.push(newPeripheral); // Push the entire peripheral object
-    //         }
-    //     }
-    
-    //     if (input) {
-    //         input.value = ''; // Clear the input field
-    //     }
-    
-    //     this.currentFruit = ''; // Clear the currentFruit
-    // }   
-    
     add(event: any): void {
         const input = event.input;
         const value = event.value;
-    
-        // Check if the input value is not empty and the selected peripheral is not already included
+
         if ((value || '').trim()) {
             const newPeripheral = this.fruits.find(
-                peripheral => peripheral.asset_barcode === value.trim()
+                (peripheral) => peripheral.asset_barcode === value.trim()
             );
-    
-            // Ensure the peripheral exists and is not already selected
+
             if (newPeripheral && !this.selectedPeris.includes(newPeripheral)) {
-                this.selectedPeris.push(newPeripheral); // Push the entire peripheral object
+                this.selectedPeris.push(newPeripheral);
             }
         }
-    
+
         if (input) {
-            input.value = ''; // Clear the input field
+            input.value = '';
         }
-    
-        this.currentFruit = ''; // Clear the currentFruit
+
+        this.currentFruit = '';
     }
+
     remove(peripherals: ItotPeripheral): void {
         const index = this.selectedPeris.indexOf(peripherals);
         if (index >= 0) {
-            this.selectedPeris.splice(index, 1); // Remove from selectedPeris
+            this.selectedPeris.splice(index, 1);
         }
     }
-    
+
     selectedPeripherals(event: any): void {
         const selectedPeris = this.fruits.find(
             (peripheral) => peripheral.asset_barcode === event.option.value
         );
-    
+
         if (selectedPeris && !this.selectedPeris.includes(selectedPeris)) {
-            this.selectedPeris.push(selectedPeris); // Push the entire peripheral object
+            this.selectedPeris.push(selectedPeris);
         }
-    
-        this.currentFruit = ''; // Clear the input field
+
+        this.currentFruit = '';
     }
-    
+
     filterFruits(value: string): void {
         const filterValue = value.toLowerCase();
         this.filteredFruits = this.fruits.filter((pc) =>
@@ -160,7 +160,10 @@ export class ModalCreateUserAddComponent implements OnInit {
         const value = event.value;
 
         if ((value || '').trim()) {
-            this.selectedPcs.push(value.trim());
+            const newPc = this.pcs.find((pc) => pc.asset_barcode === value.trim());
+            if (newPc && !this.selectedPcs.includes(newPc)) {
+                this.selectedPcs.push(newPc);
+            }
         }
 
         if (input) {
@@ -179,7 +182,7 @@ export class ModalCreateUserAddComponent implements OnInit {
             this.selectedPcs.push(selectedPc);
         }
 
-        this.currentPc = ''; // Clear the input field
+        this.currentPc = '';
     }
 
     removePc(pc: ItotPc): void {
@@ -196,44 +199,62 @@ export class ModalCreateUserAddComponent implements OnInit {
         );
     }
 
+    openConfirmationDialog(): void {
+        // Open the confirmation dialog and save the reference of it
+        const dialogRef = this._fuseConfirmationService.open(this.configForm.value);
+
+        // Subscribe to afterClosed from the dialog reference
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result === 'confirmed') {
+                this.submitForm(); // Call the submit form method if confirmed
+            } else {
+                console.log('Submission canceled');
+            }
+        });
+    }
+
     submitForm() {
         // Retrieve values from the form controls
         const step1 = this.horizontalStepperForm.get('step1')?.value;
         const step2 = this.horizontalStepperForm.get('step2')?.value;
-        const selectedPcIds = this.selectedPcs.map(pc => pc.id);
-        const selectedPeripheralIds = this.selectedPeris.map(peripheral => peripheral.id);
+
+        // Convert arrays to comma-separated strings
+        const selectedPcIds = this.selectedPcs.map((pc) => pc.id).join(',');
+        const selectedPeripheralIds = this.selectedPeris
+            .map((peripheral) => peripheral.id)
+            .join(',');
+
+        // Convert date_assigned to string format
+        const dateAssignedString = step2.date_assigned
+            ? new Date(step2.date_assigned).toISOString()
+            : null;
+
+        // Flatten cardData for the POST request
         const cardData = {
-            step1: {
-                contact_no: step1.contact_no,
-                emp_id: step1.employee_id,
-                firstName: step1.firstname,
-                lastName: step1.lastname,
-            },
-            step2: {
-                company_name: step2.company,
-                date_assigned: step2.date_assigned,
-                dept_name: step2.department,
-                location: step2.location,
-            },
-            step3: {
-                pc_id: selectedPcIds,
-                peripheral_id: selectedPeripheralIds,
-            },
-            selectedPeripherals: this.selectedPeris,
-            selectedPcs: this.selectedPcs,
+            firstName: step1.firstname,
+            lastName: step1.lastname,
+            emp_id: step1.employee_id,
+            contact_no: step1.contact_no,
+            dept_name: step2.department,
+            company_name: step2.company,
+            location: step2.location,
+            date_assigned: dateAssignedString,
+            pc_id: selectedPcIds,
+            peripheral_id: selectedPeripheralIds,
         };
-    
+
         // Log the cardData before sending it
         console.log('Submitted Card Data:', cardData);
-    
-        // Call the card service to create the card data and log the response
+
+        // Submit the data via cardService
         this.cardService.CreateCardData(cardData).subscribe(
             (response) => {
                 console.log('Card created successfully:', response);
+                this.dialogRef.close(); // Close the modal after successful submission
             },
             (error) => {
                 console.error('Error creating card:', error);
             }
         );
     }
-}    
+}

@@ -1,21 +1,34 @@
 .sidenav-container {
-  height: 100%; /* Full height to ensure proper layout */
+  height: 100%;
+  width: 100%; // Add this
+  position: relative; // Add this
 }
 
 mat-sidenav {
-  width:30%; /* Default width */
+  width: 30%;
+}
+
+mat-sidenav-content {
+  width: 100%; // Add this
+  display: block; // Add this
 }
 
 /* Media query for small screens */
-@media (max-width: 600px) { /* Small screens */
+@media (max-width: 600px) {
   mat-sidenav {
-    width: 90%; /* Width for small screens */
+    width: 90%;
   }
 }
 
 /* Media query for medium screens */
-@media (min-width: 601px) and (max-width: 900px) { /* Medium screens */
+@media (min-width: 601px) and (max-width: 900px) {
   mat-sidenav {
-    width: 50%; /* Width for medium screens */
+    width: 50%;
   }
+}
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
 }

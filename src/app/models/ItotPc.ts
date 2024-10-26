@@ -13,8 +13,11 @@ export class ItotPc {
     graphics = '';
     size = '';
     color = '';
-    li_description = '';
-    serial_no = '';      
+    li_description = '';    
+    serial_no = '';     
+    status = '';
+    assigned = '';
+    history = ''; 
     date_created = '';
     date_updated = '';   
   }

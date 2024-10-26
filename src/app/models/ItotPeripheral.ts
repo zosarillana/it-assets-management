@@ -9,6 +9,9 @@ export class ItotPeripheral {
     color = '';
     li_description = '';
     serial_no = '';   
+    status = '';
+    assigned = '';
+    history = '';
     date_created = '';
     date_updated = '';   
   }
