@@ -103,7 +103,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-2 text-sm font-semibold inventory-tag-cell"
                     >
-                        {{ element.pcs[0]?.asset_barcode }}
+                       #  {{ element.pcs[0]?.asset_barcode }}
                     </td>
                 </ng-container>                            
 
@@ -121,7 +121,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.firstNmae }} {{element.lastName}}
+                        {{ element.firstName }} {{element.lastName}}
                     </td>
                 </ng-container>
 
@@ -157,7 +157,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-2"
                     >
-                        {{ element.date_assigned }}
+                    {{ element.date_assigned | date: 'dd/MM/yyyy' }}
                     </td>
                 </ng-container>
 
@@ -239,7 +239,7 @@
                             <!-- Button to trigger sidenav -->
                             <button
                                 mat-menu-item
-                                (click)="sidePanel.openSidenav()"
+                                 (click)="openSidePanelWithId(element.id)"
                             >
                                 <mat-icon
                                     class="icon-size-4 mr-4"
