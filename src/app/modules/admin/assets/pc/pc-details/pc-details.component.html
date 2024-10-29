@@ -52,17 +52,7 @@
                     </h2>
                 </div>
             </div>
-            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                <!-- Import file button -->
-                <!-- Hidden file input -->
-                <!-- Hidden file input for CSV files -->
-                <!-- <input
-                type="file"
-                accept=".csv"
-                #fileInput
-                (change)="onFileChange($event)"
-                style="display: none"
-            /> -->
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">          
                 <mat-form-field
                     class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                 >
@@ -76,32 +66,7 @@
                         placeholder="Search Inventory Tag"
                         (keyup)="applyInventoryTagFilter($event.target.value)"
                     />
-                </mat-form-field>
-                <!-- Trigger button -->
-                <!-- <input
-                type="file"
-                accept=".xlsx"
-                #fileInput
-                (change)="onFileChange($event)"
-                style="display: none"
-            /> -->
-
-                <!-- Trigger button -->
-                <!-- <button class="ml-4" mat-stroked-button (click)="fileInput.click()">
-                <mat-icon [svgIcon]="'feather:download'"></mat-icon>
-                <span class="ml-2 mr-1">Import Excel</span>
-            </button> -->
-
-                <!-- Optionally, a button to upload the data -->
-                <!-- <button class="ml-4" mat-stroked-button (click)="uploadData()">
-                <mat-icon [svgIcon]="'feather:check'"></mat-icon>
-                <span class="ml-2 mr-1">Upload to DB</span>
-            </button> -->
-
-                <!-- <button class="ml-4" mat-stroked-button>
-                <mat-icon [svgIcon]="'feather:download'"></mat-icon>
-                <span class="ml-2 mr-1">Import CSV</span>
-            </button> -->
+                </mat-form-field>            
             </div>
         </div>
 
@@ -133,7 +98,7 @@
                             *matCellDef="let element"
                             class="border-b border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
                         >
-                            # {{ element.asset_barcode }}
+                        # {{ element.asset_barcode }}
                         </td>
                     </ng-container>
 

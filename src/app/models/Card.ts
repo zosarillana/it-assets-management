@@ -27,6 +27,7 @@ export class CardPcs {
         size : string;
         li_description  : string;
         serial_no  : string;
+        assigned: string;
         status: string;
         history: string;        
         date_created   : string;
@@ -43,6 +44,7 @@ export class CardPcs {
         size : string;
         li_description  : string;
         serial_no  : string;
+        assigned: string;
         status: string;
         history: string;        
         date_created   : string;

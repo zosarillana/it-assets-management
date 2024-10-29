@@ -13,6 +13,10 @@ export class CardService {
         return this.http.get<CardPcs[]>(`${this.url}/Card`);
     }
 
+    public getCardDataId(id: string): Observable<CardPcs[]> {
+        return this.http.get<CardPcs[]>(`${this.url}/Card/${id}`);
+    }
+
     public CreateCardData(data: any): Observable<any> {
         return this.http.post(`${this.url}/Card`, data);
     }

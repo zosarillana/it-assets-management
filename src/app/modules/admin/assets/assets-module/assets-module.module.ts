@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InventoryTableComponent } from '../inventory/inventory-table/inventory-table.component';
 import { Route, RouterModule } from '@angular/router';
@@ -40,6 +40,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { SharedModule } from 'app/shared/shared.module';
 import { FuseHighlightModule } from '@fuse/components/highlight';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DetailsPcCardComponent } from '../cards/pc-card/details-pc-card/details-pc-card.component';
 
 const assetRoute:Route[]=[
   {
@@ -66,6 +68,10 @@ const assetRoute:Route[]=[
     path: 'cards/pcs',
     component: PcCardComponent
   },
+  {
+    path: 'cards/pcs/details/:id',
+    component: DetailsPcCardComponent
+  },
 ];
 
 @NgModule({
@@ -82,7 +88,8 @@ const assetRoute:Route[]=[
     AssetImportComponent,
     AssetExportComponent,
     PcDetailsComponent,
-    PeripheralsDetailsComponent
+    PeripheralsDetailsComponent,
+    DetailsPcCardComponent
   ],
   imports: [  
     MatDividerModule,
@@ -116,9 +123,9 @@ const assetRoute:Route[]=[
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatMenuModule,
-    
+    MatMenuModule,  
     RouterModule.forChild(assetRoute)
-  ]
+  ],
+  // schemas: [NO_ERRORS_SCHEMA] // Add this line
 })
 export class AssetsModuleModule { }

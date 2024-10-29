@@ -1,3 +1,8 @@
+.mat-sidenav-backdrop {
+  display: none !important; /* Ensures that the backdrop is not displayed */
+}
+
+
 .sidenav-container {
   height: 100%;
   width: 100%; // Add this
@@ -5,7 +10,7 @@
 }
 
 mat-sidenav {
-  width: 30%;
+  width: 35%;
 }
 
 mat-sidenav-content {

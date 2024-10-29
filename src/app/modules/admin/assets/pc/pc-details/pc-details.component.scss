@@ -1,14 +1,3 @@
-.hover-effect {
-    width: 48px; // Ensure the button is square (adjust size as needed)
-    height: 48px;
-    @apply flex items-center justify-center rounded-full; // Flex to center the icon and ensure it's fully round
-    background-color: #ffffff00; // Light background for the button
-
-    &:hover {
-        @apply bg-blue-50 text-blue-500; // Hover background and text color
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-}
 
 .mat-table {
     width: 100%;

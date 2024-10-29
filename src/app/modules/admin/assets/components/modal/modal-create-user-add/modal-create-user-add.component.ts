@@ -225,10 +225,10 @@ export class ModalCreateUserAddComponent implements OnInit {
             .join(',');
 
         // Convert date_assigned to string format
-        const dateAssignedString = step2.date_assigned
-            ? new Date(step2.date_assigned).toISOString()
-            : null;
-
+        // const dateAssignedString = step2.date_assigned
+        //     ? new Date(step2.date_assigned).toISOString()
+        //     : null;
+        const dateAssigned = step2.date_assigned || null;
         // Flatten cardData for the POST request
         const cardData = {
             firstName: step1.firstname,
@@ -238,7 +238,7 @@ export class ModalCreateUserAddComponent implements OnInit {
             dept_name: step2.department,
             company_name: step2.company,
             location: step2.location,
-            date_assigned: dateAssignedString,
+            date_assigned: dateAssigned,
             pc_id: selectedPcIds,
             peripheral_id: selectedPeripheralIds,
         };
