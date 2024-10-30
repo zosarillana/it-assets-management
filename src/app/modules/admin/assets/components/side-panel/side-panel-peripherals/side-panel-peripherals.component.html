@@ -87,7 +87,8 @@
                 <ng-container>
                     <div class="flex items-center justify-between py-3">
                         <div class="text-secondary">Status</div>
-                        <div>{{ cardData.status }}</div>
+                        <!-- <div>{{ cardData.status }}</div> -->
+                        <span class="inline-flex items-center rounded-md bg-green-50 px-5 py-1.5 font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ cardData.status }}</span>
                     </div>
                 </ng-container>
             </div>
@@ -121,15 +122,7 @@
             </div>
 
             <!-- Actions -->
-            <div class="grid grid-cols-2 gap-4 w-full mt-8">
-                <button
-                    class="flex-auto"
-                    mat-flat-button
-                    [color]="'primary'"
-                    (click)="viewDetails()"
-                >
-                    View
-                </button>
+            <div class="grid grid-cols-2 gap-4 w-full mt-8">              
                 <button class="flex-auto" mat-stroked-button>Edit</button>
             </div>
         </div>

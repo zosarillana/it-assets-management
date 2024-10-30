@@ -20,14 +20,14 @@ export class PcDetailsComponent implements OnInit {
         'pc_type',
         'brand',
         'model',
-        'processor',
-        'ram',
-        'storage_capacity',
-        'storage_type',
-        'operating_system',
-        'graphics',
-        'size',
-        'color',
+        // 'processor',
+        // 'ram',
+        // 'storage_capacity',
+        // 'storage_type',
+        // 'operating_system',
+        // 'graphics',
+        // 'size',
+        // 'color',
         'li_description',
         'serial_no',      
         'action',      
@@ -175,7 +175,7 @@ export class PcDetailsComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild('sidePanel') sidePanel!: SidePanelPcsComponent;
-    
+
     ngOnInit(): void {
         // Any initialization logic can be added here
         this.loadItots();
