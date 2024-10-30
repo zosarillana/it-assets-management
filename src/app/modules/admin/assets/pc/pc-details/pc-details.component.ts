@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ItotPc } from 'app/models/ItotPc';
 import { ITOTService } from 'app/services/itot.service';
 import * as XLSX from 'xlsx'; // Keep this for XLSX handling
+import { SidePanelPcsComponent } from '../../components/side-panel/side-panel-pcs/side-panel-pcs.component';
 
 @Component({
     selector: 'app-pc-details',
@@ -166,9 +167,15 @@ export class PcDetailsComponent implements OnInit {
         );
     }
 
+    openSidePanelWithId(id: string) {
+        this.sidePanel.elementId = id; // Pass the ID
+        this.sidePanel.openSidenav(); // Open the side panel
+    }
+
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-
+    @ViewChild('sidePanel') sidePanel!: SidePanelPcsComponent;
+    
     ngOnInit(): void {
         // Any initialization logic can be added here
         this.loadItots();

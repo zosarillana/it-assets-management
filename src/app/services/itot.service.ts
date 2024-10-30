@@ -21,9 +21,16 @@ export class ITOTService {
 
     //getting by id
     public getItotPeripheralsId(id: string): Observable<ItotPeripheral[]> {
-      return this.http.get<ItotPeripheral[]>(`${this.url}/Itot/peripherals/${id}`);
-  }  
-  
+        return this.http.get<ItotPeripheral[]>(
+            `${this.url}/Itot/peripherals/${id}`
+        );
+    }
+    public getItotPcsId(id: string): Observable<ItotPeripheral[]> {
+        return this.http.get<ItotPeripheral[]>(
+            `${this.url}/Itot/pc/${id}`
+        );
+    }
+
     //uploading
     uploadExcelData(data: any[]): Observable<any> {
         return this.http.post(`${this.url}/ImportItot/update/pc`, data);
