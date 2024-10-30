@@ -8,6 +8,7 @@ import { CardPcs } from 'app/models/Card';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { SidePanelPeripheralsComponent } from '../../components/side-panel/side-panel-peripherals/side-panel-peripherals.component';
+import { SidePanelPcCardComponent } from '../../components/side-panel/side-panel-pc-card/side-panel-pc-card.component';
 
 @Component({
     selector: 'app-pc-card',
@@ -36,7 +37,7 @@ export class PcCardComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild('sidePanel') sidePanel!: SidePanelPeripheralsComponent;
+    @ViewChild('sidePanel') sidePanel!: SidePanelPcCardComponent;
     
     ngOnInit(): void {
         this.loadCards();
@@ -81,7 +82,7 @@ export class PcCardComponent implements OnInit {
     openDialog(): void {
         const dialogRef = this.dialog.open(ModalCreateUserAddComponent, {
             // data: { name: 'User Name' }, // You can pass any data here to the modal
-            height: '63%',
+            height: '65%',
             width: '50%',
         });
 

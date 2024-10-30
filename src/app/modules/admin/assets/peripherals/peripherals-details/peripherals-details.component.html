@@ -283,7 +283,7 @@
                                 <!-- Button to trigger sidenav -->
                                 <button
                                     mat-menu-item
-                                    (click)="sidePanel.openSidenav()"
+                                    (click)="openSidePanelWithId(element.id)"                                    
                                 >
                                     <mat-icon
                                         class="icon-size-4 mr-4"
@@ -321,7 +321,7 @@
             <div>
                 <mat-paginator
                     [pageSizeOptions]="[10, 15, 20, 50, 100]"
-                    [pageSize]="15"
+                    [pageSize]="10"
                     showFirstLastButtons
                     aria-label="Select page of Assets PC"
                 ></mat-paginator>

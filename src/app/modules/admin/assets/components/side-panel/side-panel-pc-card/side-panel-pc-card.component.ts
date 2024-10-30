@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { CardService } from 'app/services/card.service';
 
 @Component({
-  selector: 'app-side-panel-pcs',
-  templateUrl: './side-panel-pcs.component.html',
-  styleUrls: ['./side-panel-pcs.component.scss']
+  selector: 'app-side-panel-pc-card',
+  templateUrl: './side-panel-pc-card.component.html',
+  styleUrls: ['./side-panel-pc-card.component.scss']
 })
-export class SidePanelPcsComponent implements OnInit {
+export class SidePanelPcCardComponent implements OnInit {
   isSidenavOpen = false; // State for the sidenav
   @Input() elementId: string | null = null;
   @Input() cardData: any;

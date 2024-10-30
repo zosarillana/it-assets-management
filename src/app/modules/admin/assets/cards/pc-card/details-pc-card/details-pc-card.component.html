@@ -14,7 +14,7 @@
                         <div class="place-self-center w-24">
                             <img
                                 class="w-24"
-                                src="assets/images/logo/wc3orc.png"
+                                src="assets/images/logo/abfilogo.png"
                             />
                         </div>
                         <div class="flex flex-col gap-x-8 border-l pl-9">
@@ -131,6 +131,18 @@
                                         </div>
                                         <div class="font-medium">
                                             {{ cardData.contact_no }}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Position No. -->
+                                    <div class="flex items-center">
+                                        <div
+                                            class="uppercase font-medium tracking-tight text-secondary mr-4"
+                                        >
+                                            Position
+                                        </div>
+                                        <div class="font-medium">
+                                            {{ cardData.position }}
                                         </div>
                                     </div>
 
@@ -252,49 +264,12 @@
                     <div class="text-lg font-medium">
                         Owner History of PC Asset
                     </div>
-                    <div class="mt-2 text-md text-secondary">
-                        <div
-                            *ngIf="
-                                cardData.peripherals &&
-                                cardData.peripherals.length > 0
-                            "
-                        >
-                            <ul>
-                                <li
-                                    *ngFor="
-                                        let peripheral of cardData.peripherals
-                                    "
-                                >
-                                    # {{ peripheral.asset_barcode }},
-
-                                    {{ peripheral.li_description }}
-                                </li>
-                            </ul>
-                        </div>
-                        <div
-                            *ngIf="
-                                !cardData.peripherals ||
-                                cardData.peripherals.length === 0
-                            "
-                        >
-                            <p>No peripherals available.</p>
-                        </div>
+                    <div class="col-span-12 mt-2 text-secondary">
+                        {{ cardData.pcs[0].history }}
                     </div>
                 </div>
-                <div class="mt-7 self-center text-right">
-                    <ul>
-                        <li *ngFor="let peripheral of cardData.peripherals">
-                            {{ peripheral.status }}
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-span-4 mt-7 self-center text-right">
-                    <ul>
-                        <li *ngFor="let peripheral of cardData.peripherals">
-                            {{ peripheral.serial_no }}
-                        </li>
-                    </ul>
-                </div>
+
+                <div class="col-span-12 my-6 border-b"></div>
 
                 <div class="col-span-12">
                     <div class="mt-16">
@@ -305,7 +280,7 @@
                         <div class="flex items-start mt-4">
                             <img
                                 class="flex-0 w-10 mt-2"
-                                src="assets/images/logo/wc3orc.png"
+                                src="assets/images/logo/abfilogo.png"
                             />
                             <div class="ml-6 text-sm text-secondary">
                                 In condimentum malesuada efficitur. Mauris

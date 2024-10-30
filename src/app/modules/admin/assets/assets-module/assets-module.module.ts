@@ -42,6 +42,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailsPcCardComponent } from '../cards/pc-card/details-pc-card/details-pc-card.component';
+import { FuseAlertModule } from '@fuse/components/alert';
+import { SidePanelPcCardComponent } from '../components/side-panel/side-panel-pc-card/side-panel-pc-card.component';
 
 const assetRoute:Route[]=[
   {
@@ -76,6 +78,7 @@ const assetRoute:Route[]=[
 
 @NgModule({
   declarations: [
+    SidePanelPcCardComponent,
     SidePanelPeripheralsComponent,
     SidePanelPcsComponent,    
     ModalUniversalComponent,
@@ -92,6 +95,7 @@ const assetRoute:Route[]=[
     DetailsPcCardComponent
   ],
   imports: [  
+    FuseAlertModule,
     MatDividerModule,
     SharedModule,
     FuseHighlightModule,   

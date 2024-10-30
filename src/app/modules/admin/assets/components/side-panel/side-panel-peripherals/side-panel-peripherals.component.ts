@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CardPcs } from 'app/models/Card';
-import { CardService } from 'app/services/card.service';
+import { ITOTService } from 'app/services/itot.service';
 
 @Component({
   selector: 'app-side-panel-peripherals',
@@ -15,25 +14,25 @@ export class SidePanelPeripheralsComponent implements OnInit {
 
   // cardData: CardPcs[] | null = null; // Property to store fetched data
 
-  constructor(private cardService: CardService, private router: Router) {}
+  constructor(private service: ITOTService, private router: Router) {}
 
   ngOnInit(): void {}
 
   openSidenav() {
     this.isSidenavOpen = true;
     console.log('Opening side panel with ID:', this.elementId);
-    
-    // Fetch the data only if elementId is available
+
     if (this.elementId) {
-      this.cardService.getCardDataId(this.elementId).subscribe(
-        (data) => {
-          this.cardData = data;
-          console.log('Fetched card data:', data);
-        },
-        (error) => {
-          console.error('Error fetching card data:', error);
-        }
-      );
+        console.log('Attempting to fetch card data for ID:', this.elementId);
+        this.service.getItotPeripheralsId(this.elementId).subscribe(
+            (data) => {
+                this.cardData = data;
+                console.log('Fetched card data:', data);
+            },
+            (error) => {
+                console.error('Error fetching card data:', error);
+            }
+        );
     }
   }
 
