@@ -17,36 +17,36 @@
                 <mat-form-field class="flex-auto">
                     <input
                         matInput
-                        [formControlName]="'firstname'"
-                        [placeholder]="'Firstname'"
+                        [formControlName]="'asset_barcode'"
+                        [placeholder]="'Asset Barcode'"
                         required
                     />
                     <mat-icon
                         class="icon-size-5"
                         matPrefix
-                        [svgIcon]="'mat_solid:person'"
+                        [svgIcon]="'mat_solid:tag'"
                     ></mat-icon>
                 </mat-form-field>
             </div>
             <div class="flex flex-col gt-xs:flex-row">
                 <mat-form-field class="flex-auto">
                     <input
-                        [formControlName]="'lastname'"
+                        [formControlName]="'date_acquired'"
                         matInput
-                        [placeholder]="'Lastname'"
+                        [placeholder]="'Date Acquired'"
                         required
                     />
                     <mat-icon
                         class="icon-size-5"
                         matPrefix
-                        [svgIcon]="'mat_solid:person'"
+                        [svgIcon]="'mat_solid:calendar'"
                     ></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="flex-auto">
                     <input
                         matInput
-                        [formControlName]="'position'"
-                        [placeholder]="'Position'"
+                        [formControlName]="'pc_type'"
+                        [placeholder]="'PC Type'"
                         required
                     />
                     <mat-icon
@@ -58,8 +58,8 @@
                 <mat-form-field class="flex-auto">
                     <input
                         matInput
-                        [formControlName]="'employee_id'"
-                        [placeholder]="'ID'"
+                        [formControlName]="'brand'"
+                        [placeholder]="'Brand'"
                         required
                     />
                     <mat-icon
@@ -72,8 +72,8 @@
                 <mat-form-field class="flex-auto">
                     <input
                         matInput
-                        [formControlName]="'contact_no'"
-                        [placeholder]="'Contact no.'"
+                        [formControlName]="'model'"
+                        [placeholder]="'Model'"
                         required
                     />
                     <mat-icon
@@ -112,8 +112,8 @@
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <input
                         matInput
-                        [formControlName]="'department'"
-                        [placeholder]="'Department Name'"
+                        [formControlName]="'processor'"
+                        [placeholder]="'Processor'"
                         required
                     />
                     <mat-icon
@@ -125,8 +125,8 @@
                 <mat-form-field class="flex-auto gt-xs:pl-3">
                     <input
                         matInput
-                        [formControlName]="'company'"
-                        [placeholder]="'Company Name'"
+                        [formControlName]="'ram'"
+                        [placeholder]="'Ram'"
                         required
                     />
                     <mat-icon
@@ -140,8 +140,23 @@
                 <mat-form-field class="flex-auto">
                     <input
                         matInput
-                        [formControlName]="'location'"
-                        [placeholder]="'Location'"
+                        [formControlName]="'storage_capacity'"
+                        [placeholder]="'Storage Capacity'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:location_on'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'operating_system'"
+                        [placeholder]="'Operating System'"
                         required
                     />
                     <mat-icon
@@ -156,8 +171,8 @@
                     <input
                         matInput
                         [matDatepicker]="picker"
-                        [formControlName]="'date_assigned'"
-                        placeholder="Date Assigned"
+                        [formControlName]="'storage_type'"
+                        placeholder="Storage Type"
                         (click)="picker.open()"
                         class="cursor-pointer"
                         required
@@ -208,92 +223,71 @@
             <ng-template matStepLabel>Assign Assets</ng-template>
             <p class="my-6 font-medium">Select Assets to Assign</p>
             <div class="flex flex-col gt-sm:flex-row">
-                <mat-form-field class="example-chip-list custom-chip-list">
-                    <mat-label>Assign PC / Laptop</mat-label>
-                    <mat-chip-list #chipList2 aria-label="PC selection">
-                        <mat-chip
-                            *ngFor="let pc of selectedPcs"
-                            (removed)="removePc(pc)"
-                        >
-                            {{ pc.asset_barcode }} {{ pc.id }}
-                            <button
-                                matChipRemove
-                                [attr.aria-label]="'remove ' + pc.asset_barcode"
-                            >
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </mat-chip>
-                    </mat-chip-list>
-                    <input
-                        [formControlName]="'assign_pc'"
-                        name="currentPc"
-                        placeholder="New PC..."
-                        #pcInput
-                        [matChipInputFor]="chipList2"
-                        [matAutocomplete]="pcAuto"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        (input)="filterPCs($event.target.value)"
-                        (matChipInputTokenEnd)="addPc($event)"
-                    />
-                    <mat-autocomplete
-                        #pcAuto="matAutocomplete"
-                        (optionSelected)="selectedPc($event)"
-                    >
-                        <mat-option
-                            *ngFor="let pc of filteredPcs"
-                            [value]="pc.asset_barcode"
-                        >
-                            {{ pc.asset_barcode }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
+                <div class="flex">
+                    <mat-form-field class="flex-auto">
+                        <input
+                            matInput
+                            [formControlName]="'graphics'"
+                            [placeholder]="'Graphics'"
+                            required
+                        />
+                        <mat-icon
+                            class="icon-size-5"
+                            matPrefix
+                            [svgIcon]="'mat_solid:location_on'"
+                        ></mat-icon>
+                    </mat-form-field>
+                </div>
 
                 <!-- Assign Peripherals -->
-                <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
-                    <mat-form-field class="example-chip-list custom-chip-list">
-                        <mat-label>Assign Peripherals</mat-label>
-                        <mat-chip-list
-                            #chipList
-                            aria-label="Peripheral selection"
-                        >
-                            <mat-chip
-                                *ngFor="let fruit of selectedPeris"
-                                (removed)="remove(fruit)"
-                            >
-                                {{ fruit.id }}
-                                <button
-                                    matChipRemove
-                                    [attr.aria-label]="
-                                        'remove ' + fruit.asset_barcode
-                                    "
-                                >
-                                    <mat-icon>cancel</mat-icon>
-                                </button>
-                            </mat-chip>
-                        </mat-chip-list>
-                        <input
-                            [formControlName]="'assign_peripherals'"
-                            name="currentFruit"
-                            placeholder="New Peripheral..."
-                            #fruitInput
-                            [matChipInputFor]="chipList"
-                            [matAutocomplete]="fruitAuto"
-                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            (input)="filterFruits($event.target.value)"
-                            (matChipInputTokenEnd)="add($event)"
-                        />
-                        <mat-autocomplete
-                            #fruitAuto="matAutocomplete"
-                            (optionSelected)="selectedPeripherals($event)"
-                        >
-                            <mat-option
-                                *ngFor="let fruit of filteredFruits"
-                                [value]="fruit.asset_barcode"
-                            >
-                                {{ fruit.asset_barcode }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
+              
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <input
+                                matInput
+                                [formControlName]="'size'"
+                                [placeholder]="'Size'"
+                                required
+                            />
+                            <mat-icon
+                                class="icon-size-5"
+                                matPrefix
+                                [svgIcon]="'mat_solid:location_on'"
+                            ></mat-icon>
+                        </mat-form-field>
+             
+                </div>
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <input
+                                matInput
+                                [formControlName]="'color'"
+                                [placeholder]="'Color'"
+                                required
+                            />
+                            <mat-icon
+                                class="icon-size-5"
+                                matPrefix
+                                [svgIcon]="'mat_solid:location_on'"
+                            ></mat-icon>
+                        </mat-form-field>
+             
+                </div>
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <input
+                                matInput
+                                [formControlName]="'serial_no'"
+                                [placeholder]="'Serial Number'"
+                                required
+                            />
+                            <mat-icon
+                                class="icon-size-5"
+                                matPrefix
+                                [svgIcon]="'mat_solid:location_on'"
+                            ></mat-icon>
+                        </mat-form-field>
+             
                 </div>
             </div>
 

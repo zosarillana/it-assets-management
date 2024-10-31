@@ -59,21 +59,24 @@ export class PcModalCreateComponent implements OnInit {
   ngOnInit() {
       this.horizontalStepperForm = this._formBuilder.group({
           step1: this._formBuilder.group({
-              firstname: ['', [Validators.required]],
-              lastname: ['', Validators.required],
-              position: ['', Validators.required],
-              employee_id: ['', Validators.required],
-              contact_no: ['', Validators.required],                
+            asset_barcode: ['', [Validators.required]],
+            date_acquired: ['', Validators.required],
+            pc_type: ['', Validators.required],
+            brand: ['', Validators.required],
+            model: ['', Validators.required],                
           }),
           step2: this._formBuilder.group({
-              department: ['', Validators.required],
-              company: ['', Validators.required],
-              location: ['', Validators.required],
-              date_assigned: ['', Validators.required],
+            processor: ['', Validators.required],
+            ram: ['', Validators.required],
+            storage_capacity: ['', Validators.required],
+            storage_type: ['', Validators.required],
+            operating_system: ['', Validators.required],
           }),
           step3: this._formBuilder.group({
-              assign_pc: ['', Validators.required],
-              assign_peripherals: ['', Validators.required],
+            graphics: ['', Validators.required],
+            size: ['', Validators.required],
+            color: ['', Validators.required],
+            serial_no: ['', Validators.required],            
           }),
       });
 
