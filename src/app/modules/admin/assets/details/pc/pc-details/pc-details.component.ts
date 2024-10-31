@@ -6,7 +6,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ItotPc } from 'app/models/ItotPc';
 import { ITOTService } from 'app/services/itot.service';
 import * as XLSX from 'xlsx'; // Keep this for XLSX handling
-import { SidePanelPcsComponent } from '../../components/side-panel/side-panel-pcs/side-panel-pcs.component';
+
+
+import { MatDialog } from '@angular/material/dialog';
+import { SidePanelPcCardComponent } from '../../../cards/pc/side-panel-pc-card/side-panel-pc-card.component';
+import { PcModalCreateComponent } from '../pc-modal-create/pc-modal-create.component';
+ 
 
 @Component({
     selector: 'app-pc-details',
@@ -19,15 +24,7 @@ export class PcDetailsComponent implements OnInit {
         'date_acquired',
         'pc_type',
         'brand',
-        'model',
-        // 'processor',
-        // 'ram',
-        // 'storage_capacity',
-        // 'storage_type',
-        // 'operating_system',
-        // 'graphics',
-        // 'size',
-        // 'color',
+        'model',        
         'li_description',
         'serial_no',      
         'action',      
@@ -37,7 +34,8 @@ export class PcDetailsComponent implements OnInit {
 
     constructor(
         private _liveAnnouncer: LiveAnnouncer,
-        private itotService: ITOTService
+        private itotService: ITOTService,
+        public dialog: MatDialog,
     ) {}
 
     // Helper function to convert Excel date serial to a string
@@ -166,6 +164,18 @@ export class PcDetailsComponent implements OnInit {
             }
         );
     }
+    openDialog(): void {
+        const dialogRef = this.dialog.open(PcModalCreateComponent, {
+            //data: { name: 'User Name' }, // You can pass any data here to the modal
+            height: '60%',
+            width: '50%',
+        });
+  
+        // Optionally handle the dialog close event and get the result
+        dialogRef.afterClosed().subscribe((result) => {
+            console.log('Dialog closed, result:', result);
+        });
+    }
 
     openSidePanelWithId(id: string) {
         this.sidePanel.elementId = id; // Pass the ID
@@ -174,7 +184,7 @@ export class PcDetailsComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild('sidePanel') sidePanel!: SidePanelPcsComponent;
+    @ViewChild('sidePanel') sidePanel!: SidePanelPcCardComponent;
 
     ngOnInit(): void {
         // Any initialization logic can be added here

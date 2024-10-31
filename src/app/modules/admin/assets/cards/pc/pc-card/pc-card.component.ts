@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalCreateUserAddComponent } from '../../components/modal/modal-create-user-add/modal-create-user-add.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { CardService } from 'app/services/card.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CardPcs } from 'app/models/Card';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { SidePanelPeripheralsComponent } from '../../components/side-panel/side-panel-peripherals/side-panel-peripherals.component';
-import { SidePanelPcCardComponent } from '../../components/side-panel/side-panel-pc-card/side-panel-pc-card.component';
+import { ModalCreateUserAddComponent } from '../../user/modal-create-user-add/modal-create-user-add.component';
+import { SidePanelPcCardComponent } from '../side-panel-pc-card/side-panel-pc-card.component';
+
 
 @Component({
     selector: 'app-pc-card',

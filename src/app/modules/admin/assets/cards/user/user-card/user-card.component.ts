@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ModalUniversalComponent } from '../../../components/modal/modal-universal/modal-universal.component';
 
 @Component({
   selector: 'app-user-card',

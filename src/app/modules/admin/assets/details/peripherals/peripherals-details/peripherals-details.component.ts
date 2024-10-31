@@ -5,7 +5,9 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ItotPeripheral } from 'app/models/ItotPeripheral';
 import { ITOTService } from 'app/services/itot.service';
-import { SidePanelPeripheralsComponent } from '../../components/side-panel/side-panel-peripherals/side-panel-peripherals.component';
+import { SidePanelPeripheralsComponent } from '../side-panel-peripherals/side-panel-peripherals.component';
+import { PeripheralModalCreateComponent } from '../peripheral-modal-create/peripheral-modal-create.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-peripherals-details',
@@ -31,7 +33,8 @@ export class PeripheralsDetailsComponent implements OnInit {
 
     constructor(
         private _liveAnnouncer: LiveAnnouncer,
-        private itotService: ITOTService
+        private itotService: ITOTService,
+        public dialog: MatDialog
     ) {}
 
     loadItots(): void {
@@ -70,6 +73,19 @@ export class PeripheralsDetailsComponent implements OnInit {
     openSidePanelWithId(id: string) {
         this.sidePanel.elementId = id; // Pass the ID
         this.sidePanel.openSidenav(); // Open the side panel
+    }
+
+    openDialog(): void {
+        const dialogRef = this.dialog.open(PeripheralModalCreateComponent, {
+            //data: { name: 'User Name' }, // You can pass any data here to the modal
+            height: '60%',
+            width: '50%',
+        });
+  
+        // Optionally handle the dialog close event and get the result
+        dialogRef.afterClosed().subscribe((result) => {
+            console.log('Dialog closed, result:', result);
+        });
     }
 
     announceSortChange(sortState: Sort) {
