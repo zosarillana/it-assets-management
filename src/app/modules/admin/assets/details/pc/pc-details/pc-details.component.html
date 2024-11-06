@@ -120,7 +120,7 @@
                             *matCellDef="let element"
                             class="border-b border-gray-200 text-sm px-4 py-2"
                         >
-                            {{ element.date_acquired }}
+                            {{ element.date_acquired | date : "dd/MM/yyyy" }}
                         </td>
                     </ng-container>
 
@@ -253,13 +253,25 @@
                                     ></mat-icon>
                                     <span>Edit</span>
                                 </button>
-                                <button mat-menu-item>
+                                <!-- <button mat-menu-item>
                                     <mat-icon
                                         class="icon-size-4 mr-4"
                                         svgIcon="feather:delete"
                                     ></mat-icon>
                                     <span>Delete</span>
-                                </button>
+                                </button> -->
+                                <button
+                                mat-menu-item
+                                (click)="deletePc(element.id)"
+                                aria-label="Delete Peripheral"
+                                role="menuitem"
+                            >
+                                <mat-icon
+                                    class="icon-size-4 mr-4"
+                                    [svgIcon]="'feather:delete'"
+                                ></mat-icon>
+                                <span>Delete</span>
+                            </button>
                             </mat-menu>
                         </td>
                     </ng-container>

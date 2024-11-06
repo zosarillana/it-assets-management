@@ -6,11 +6,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ItotPc } from 'app/models/ItotPc';
 import { ITOTService } from 'app/services/itot.service';
 import * as XLSX from 'xlsx'; // Keep this for XLSX handling
-
-
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDialog } from '@angular/material/dialog';
 import { SidePanelPcCardComponent } from '../../../cards/pc/side-panel-pc-card/side-panel-pc-card.component';
 import { PcModalCreateComponent } from '../pc-modal-create/pc-modal-create.component';
+import { ModalUniversalComponent } from '../../../components/modal/modal-universal/modal-universal.component';
+import { AlertService } from 'app/services/alert.service';
  
 
 @Component({
@@ -36,6 +37,8 @@ export class PcDetailsComponent implements OnInit {
         private _liveAnnouncer: LiveAnnouncer,
         private itotService: ITOTService,
         public dialog: MatDialog,
+        private _fuseConfirmationService: FuseConfirmationService,
+        private alertService: AlertService
     ) {}
 
     // Helper function to convert Excel date serial to a string
@@ -216,4 +219,33 @@ export class PcDetailsComponent implements OnInit {
             this._liveAnnouncer.announce('Sorting cleared');
         }
     }
+
+    deletePc(id: number): void {
+        const dialogRef = this.dialog.open(ModalUniversalComponent, {
+            width: '400px',
+            data: { name: 'Delete Confirmation' }
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log(`Deleting peripheral with ID ${id}`);
+                this.itotService.DeletePc(id).subscribe({
+                    next: () => {
+                        console.log(`Peripheral with ID ${id} deleted successfully.`);
+                        this.alertService.triggerSuccess('Peripheral deleted successfully.'); // Show success alert
+                        this.loadItots(); // Reload the list after deletion
+                    },
+                    error: (err) => {
+                        console.error('Error deleting peripheral:', err);
+                        this.alertService.triggerError('Error deleting peripheral.'); // Show error alert
+                    }
+                });
+            } else {
+                console.log('Deletion cancelled by the user.');
+                // Optionally, you can show an alert if you want to notify that deletion was cancelled.
+                // Example: this.alertService.triggerInfo('Deletion cancelled');
+            }
+        });
+    }    
+   
 }

@@ -31,6 +31,29 @@ export class ITOTService {
         );
     }
 
+    //creating pc and peripheral
+    public CreatePeripheral(data: any): Observable<any> {
+        return this.http.post(`${this.url}/Itot/peripherals/add`, data);
+    }
+
+    public CreatePc(data: any): Observable<any> {
+        return this.http.post(`${this.url}/Itot/pc/add`, data);
+    }
+
+    //delete pc and peripheral 
+    public DeletePeripheral(id: number): Observable<any> {
+        return this.http.delete(`${this.url}/Itot/peripherals/delete/${id}`);
+    }
+
+    public DeletePc(id: number): Observable<any> {
+        return this.http.delete(`${this.url}/Itot/pc/delete/${id}`);
+    }
+    
+    //update pc and peripheral
+    public UpdatePeripheral(id: number, data: any): Observable<any> {
+        return this.http.put(`${this.url}/Itot/peripherals/update/${id}`, data);
+    }
+    
     //uploading
     uploadExcelData(data: any[]): Observable<any> {
         return this.http.post(`${this.url}/ImportItot/update/pc`, data);

@@ -59,13 +59,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type: 'collapsable',
                         icon: 'mat_outline:article',         
                         children:[
-                            {
-                                id: 'assets.cards.details.user',
-                                title: 'User Card',
-                                type: 'basic',
-                                 icon: 'feather:user',
-                                link: '/assets/cards/users',
-                            },
+                            // {
+                            //     id: 'assets.cards.details.user',
+                            //     title: 'User Card',
+                            //     type: 'basic',
+                            //      icon: 'feather:user',
+                            //     link: '/assets/cards/users',
+                            // },
                             {
                                 id: 'assets.cards.details.pc',
                                 title: 'Desktop Card',

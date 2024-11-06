@@ -6,6 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ItotPc } from 'app/models/ItotPc';
 import { ItotPeripheral } from 'app/models/ItotPeripheral';
+import { AlertService } from 'app/services/alert.service';
 import { CardService } from 'app/services/card.service';
 import { ITOTService } from 'app/services/itot.service';
 
@@ -49,10 +50,10 @@ export class PeripheralModalCreateComponent implements OnInit {
 
     constructor(
         private _formBuilder: FormBuilder,
-        private itotService: ITOTService,
-        private cardService: CardService,
+        private itotService: ITOTService,    
         private dialogRef: MatDialogRef<PeripheralModalCreateComponent>,
-        private _fuseConfirmationService: FuseConfirmationService
+        private _fuseConfirmationService: FuseConfirmationService,
+        private alertService: AlertService,
     ) {}
 
     ngOnInit() {
@@ -60,6 +61,7 @@ export class PeripheralModalCreateComponent implements OnInit {
             step1: this._formBuilder.group({
                 date_acquired: ['', [Validators.required]],
                 asset_barcode: ['', Validators.required],
+                serial_no: ['', Validators.required],
                 peripheral_type: ['', Validators.required],
                 li_description: ['', Validators.required],
             }),
@@ -230,66 +232,49 @@ export class PeripheralModalCreateComponent implements OnInit {
             }
         });
     }
-
     submitForm() {
-        // Retrieve values from the form controls
-        const step1 = this.horizontalStepperForm.get('step1')?.value;
-        const step2 = this.horizontalStepperForm.get('step2')?.value;
-
-        // Convert arrays to comma-separated strings
-        const selectedPcIds = this.selectedPcs.map((pc) => pc.id).join(',');
-        const selectedPeripheralIds = this.selectedPeris
-            .map((peripheral) => peripheral.id)
-            .join(',');
-
-        const dateAssigned = step2.date_assigned || null;
-
-        const cardData = {
-            firstName: step1.firstname,
-            lastName: step1.lastname,
-            emp_id: step1.employee_id,
-            contact_no: step1.contact_no,
-            position: step1.position,
-            dept_name: step2.department,
-            company_name: step2.company,
-            location: step2.location,
-            date_assigned: dateAssigned,
-            pc_id: selectedPcIds,
-            peripheral_id: selectedPeripheralIds,
-        };
-
-        // Log the cardData before sending it
-        console.log('Submitted Card Data:', cardData);
-
-        // Submit the data via cardService
-        this.cardService.CreateCardData(cardData).subscribe(
-            (response) => {
-                console.log('Card created successfully:', response);
-                this.successMessage = 'Card created successfully!'; // Set success message
-                this.successVisible = true; // Show success alert
-
-                // Close the modal after a 5-second delay
-                setTimeout(() => {
-                    this.successVisible = false; // Fade out the success alert
-                    setTimeout(() => {
-                        this.successMessage = null; // Clear success message
-                        this.dialogRef.close(); // Close the modal
-                    }, 500); // Additional delay for fade-out effect
-                }, 5000); // 5-second delay to show success message
-            },
-            (error) => {
-                console.error('Error creating card:', error);
-                this.errorMessage = error.error || 'An error occurred';
-                this.errorVisible = true; // Show error alert
-
-                // Clear error message after 5 seconds
-                setTimeout(() => {
-                    this.errorVisible = false; // This will trigger fade-out animation
-                    setTimeout(() => {
-                        this.errorMessage = null; // Clear error message
-                    }, 500); // Additional delay for fade-out effect
-                }, 5000);
-            }
-        );
-    }
-}
+        // Check if the form is valid
+        if (this.horizontalStepperForm.valid) {
+            const step1 = this.horizontalStepperForm.get('step1')?.value;
+            const step2 = this.horizontalStepperForm.get('step2')?.value;
+    
+            const selectedPcIds = this.selectedPcs.map((pc) => pc.id).join(',');
+            const selectedPeripheralIds = this.selectedPeris
+                .map((peripheral) => peripheral.id)
+                .join(',');
+    
+            const dateAssigned = step1.date_acquired || null;
+    
+            const Data = {
+                date_acquired: dateAssigned,
+                asset_barcode: step1.asset_barcode,
+                serial_no: step1.serial_no,
+                peripheral_type: step1.peripheral_type,
+                li_description: step1.li_description,
+                size: step2.size,
+                brand: step2.brand,
+                model: step2.model,
+                color: step2.color,
+            };
+    
+            console.log('Submitted Data:', Data);
+    
+            // Always create a new peripheral
+            this.itotService.CreatePeripheral(Data).subscribe(
+                (response) => {
+                    console.log('Peripheral created successfully', response);
+                    this.alertService.triggerSuccess('Peripheral created successfully');
+                    this.dialogRef.close({ success: true }); // Close with success result
+                },
+                (error) => {
+                    console.error('Error creating peripheral', error);
+                    this.alertService.triggerError('Error creating peripheral');
+                    this.dialogRef.close({ success: false }); // Close with failure result
+                }
+            );
+        } else {
+            console.log('Form is invalid');
+            this.alertService.triggerError('Please complete the form correctly.');
+        }
+    }    
+}    

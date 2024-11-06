@@ -11,8 +11,8 @@
             [stepControl]="horizontalStepperForm.get('step1')"
             #horizontalStepperStep1
         >
-            <ng-template matStepLabel>Basic information</ng-template>
-            <p class="my-6 font-medium">Fill in Employee Basic Information</p>
+            <ng-template matStepLabel>Date Acquired and Asset Information</ng-template>
+            <p class="my-6 font-medium">Fill in Date Acquired and Asset Information</p>
             <div class="flex">
                 <mat-form-field class="flex-auto">
                     <input
@@ -38,11 +38,25 @@
                 </mat-form-field>
             </div>
             <div class="flex flex-col gt-xs:flex-row">
+                
                 <mat-form-field class="flex-auto">
                     <input
                         [formControlName]="'asset_barcode'"
                         matInput
                         [placeholder]="'Asset Barcode'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:tag'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <input
+                        [formControlName]="'serial_no'"
+                        matInput
+                        [placeholder]="'Serial Number'"
                         required
                     />
                     <mat-icon
@@ -100,8 +114,8 @@
             [stepControl]="horizontalStepperForm.get('step2')"
             #horizontalStepperStep2
         >
-            <ng-template matStepLabel>Department Details</ng-template>
-            <p class="my-6 font-medium">Fill in Department Information</p>
+            <ng-template matStepLabel>Asset Specification</ng-template>
+            <p class="my-6 font-medium">Fill in Asset Specifications</p>
             <div class="flex flex-col gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <input
@@ -213,16 +227,4 @@
             </div>
         </mat-step>
     </mat-horizontal-stepper>
-    <div *ngIf="errorVisible" @fadeInOut class="fixed top-5 right-5 z-50">
-        <fuse-alert [type]="'warn'">
-            <span fuseAlertTitle>Warn alert</span>
-            {{ errorMessage }}
-        </fuse-alert>
-    </div>    
-    <div *ngIf="successVisible" @fadeInOut class="fixed top-5 right-5 z-50">
-        <fuse-alert [type]="'success'">
-            <span fuseAlertTitle>Success alert</span>
-            {{ successMessage }}
-        </fuse-alert>
-    </div>    
 </form>

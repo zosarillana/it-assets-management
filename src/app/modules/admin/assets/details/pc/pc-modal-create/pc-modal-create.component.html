@@ -31,16 +31,25 @@
             <div class="flex flex-col gt-xs:flex-row">
                 <mat-form-field class="flex-auto">
                     <input
-                        [formControlName]="'date_acquired'"
                         matInput
-                        [placeholder]="'Date Acquired'"
+                        [matDatepicker]="picker"
+                        [formControlName]="'date_acquired'"
+                        placeholder="Date Acquired"
+                        (click)="picker.open()"
+                        class="cursor-pointer"
                         required
                     />
                     <mat-icon
-                        class="icon-size-5"
                         matPrefix
-                        [svgIcon]="'mat_solid:calendar'"
-                    ></mat-icon>
+                        class="icon-size-5 cursor-pointer"
+                        (click)="picker.open()"
+                    >
+                        calendar_today
+                    </mat-icon>
+                    <span matPrefix (click)="picker.open()" class="cursor-pointer">
+                        ex. 01/30/2024 /
+                    </span>
+                    <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="flex-auto">
                     <input
@@ -66,8 +75,7 @@
                         class="icon-size-5"
                         matPrefix
                         [svgIcon]="'mat_solid:info'"
-                    ></mat-icon>
-                    <span matPrefix>000-000/</span>
+                    ></mat-icon>                    
                 </mat-form-field>
                 <mat-form-field class="flex-auto">
                     <input
@@ -167,27 +175,18 @@
                 </mat-form-field>
             </div>
             <div class="flex">
-                <mat-form-field class="flex-auto">
+                <mat-form-field class="flex-auto gt-xs:pl-3">
                     <input
                         matInput
-                        [matDatepicker]="picker"
                         [formControlName]="'storage_type'"
-                        placeholder="Storage Type"
-                        (click)="picker.open()"
-                        class="cursor-pointer"
+                        [placeholder]="'Storage Type'"
                         required
                     />
                     <mat-icon
+                        class="icon-size-5"
                         matPrefix
-                        class="icon-size-5 cursor-pointer"
-                        (click)="picker.open()"
-                    >
-                        calendar_today
-                    </mat-icon>
-                    <span matPrefix (click)="picker.open()" class="cursor-pointer">
-                        ex. 01/30/2024 /
-                    </span>
-                    <mat-datepicker #picker></mat-datepicker>
+                        [svgIcon]="'mat_solid:info'"
+                    ></mat-icon>
                 </mat-form-field>
             </div>
             <div class="flex justify-end">
@@ -341,7 +340,7 @@
             </div>
         </mat-step>
     </mat-horizontal-stepper>
-    <div *ngIf="errorVisible" @fadeInOut class="fixed top-5 right-5 z-50">
+    <!-- <div *ngIf="errorVisible" @fadeInOut class="fixed top-5 right-5 z-50">
         <fuse-alert [type]="'warn'">
             <span fuseAlertTitle>Warn alert</span>
             {{ errorMessage }}
@@ -353,7 +352,7 @@
             <span fuseAlertTitle>Success alert</span>
             {{ successMessage }}
         </fuse-alert>
-    </div>
+    </div> -->
     
     <!-- Final submit button for form -->
     <!-- <div class="flex justify-end mt-8">

@@ -1,0 +1,17 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #editSidenav mode="over" position="end" >
+        <div class="p-4">
+            <h2>Edit Peripheral</h2>
+            <mat-form-field>
+                <mat-label>Asset Barcode</mat-label>
+                <input matInput [(ngModel)]="editData.asset_barcode">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Brand</mat-label>
+                <input matInput [(ngModel)]="editData.brand">
+            </mat-form-field>
+            <button mat-stroked-button (click)="saveChanges()">Save</button>
+            <button mat-stroked-button (click)="closeEditSidenav()">Cancel</button>
+        </div>
+    </mat-sidenav>
+</mat-sidenav-container>

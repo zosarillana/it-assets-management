@@ -16,12 +16,15 @@ import { ShortcutsModule } from 'app/layout/common/shortcuts/shortcuts.module';
 import { UserModule } from 'app/layout/common/user/user.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { ClassyLayoutComponent } from 'app/layout/layouts/vertical/classy/classy.component';
+import { AlertsComponentComponent } from 'app/modules/admin/assets/components/alerts-component/alerts-component.component';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 @NgModule({
     declarations: [
-        ClassyLayoutComponent
+        ClassyLayoutComponent, AlertsComponentComponent
     ],
     imports     : [
+        FuseAlertModule,
         HttpClientModule,
         RouterModule,
         MatButtonModule,

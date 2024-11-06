@@ -244,6 +244,7 @@ export class PcModalCreateComponent implements OnInit {
       // Retrieve values from the form controls
       const step1 = this.horizontalStepperForm.get('step1')?.value;
       const step2 = this.horizontalStepperForm.get('step2')?.value;
+      const step3 = this.horizontalStepperForm.get('step3')?.value;
   
       // Convert arrays to comma-separated strings
       const selectedPcIds = this.selectedPcs.map((pc) => pc.id).join(',');
@@ -251,27 +252,32 @@ export class PcModalCreateComponent implements OnInit {
           .map((peripheral) => peripheral.id)
           .join(',');
   
-      const dateAssigned = step2.date_assigned || null;
+      const dateAssigned = step1.date_acquired || null;
   
       const cardData = {
-          firstName: step1.firstname,
-          lastName: step1.lastname,
-          emp_id: step1.employee_id,
-          contact_no: step1.contact_no,
-          position: step1.position,
-          dept_name: step2.department,
-          company_name: step2.company,
-          location: step2.location,
-          date_assigned: dateAssigned,
-          pc_id: selectedPcIds,
-          peripheral_id: selectedPeripheralIds,
+          asset_barcode: step1.asset_barcode,
+          date_acquired: dateAssigned,
+          pc_type: step1.pc_type,
+          brand: step1.brand,
+          model: step1.model,
+          processor: step2.processor,
+          ram: step2.ram,
+          storage_capacity: step2.storage_capacity,
+          storage_type: step2.storage_type,
+          operating_system: step2.operating_system,          
+          graphics: step3.graphics,          
+          size: step3.size,          
+          color: step3.color,          
+          serial_no: step3.serial_no,          
+        //   pc_id: selectedPcIds,
+        //   peripheral_id: selectedPeripheralIds,
       };
   
       // Log the cardData before sending it
       console.log('Submitted Card Data:', cardData);
   
       // Submit the data via cardService
-      this.cardService.CreateCardData(cardData).subscribe(
+      this.itotService.CreatePc(cardData).subscribe(
           (response) => {
               console.log('Card created successfully:', response);
               this.successMessage = 'Card created successfully!'; // Set success message

@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,9 @@ import { ITOTService } from 'app/services/itot.service';
 import { SidePanelPeripheralsComponent } from '../side-panel-peripherals/side-panel-peripherals.component';
 import { PeripheralModalCreateComponent } from '../peripheral-modal-create/peripheral-modal-create.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ModalUniversalComponent } from '../../../components/modal/modal-universal/modal-universal.component';
+import { SidePanelPeripheralsEditComponent } from '../side-panel-peripherals-edit/side-panel-peripherals-edit.component';
+import { AlertService } from 'app/services/alert.service';
 
 @Component({
     selector: 'app-peripherals-details',
@@ -27,29 +30,32 @@ export class PeripheralsDetailsComponent implements OnInit {
         'serial_no',
         'action',
     ];
-
+   
     dataSource = new MatTableDataSource<any>([]);
-    data: any[] = [];
+    data: any[] = []; 
 
     constructor(
         private _liveAnnouncer: LiveAnnouncer,
         private itotService: ITOTService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        public alertService: AlertService,
+        private cdr: ChangeDetectorRef,
     ) {}
 
     loadItots(): void {
-        this.itotService
-            .getItotPeripherals()
-            .subscribe((result: ItotPeripheral[]) => {
-                this.dataSource = new MatTableDataSource(result);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-            });
-    }
+        this.itotService.getItotPeripherals().subscribe((result: ItotPeripheral[]) => {
+            console.log('Updated peripherals list after delete:', result);
+            this.dataSource = new MatTableDataSource(result);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            this.cdr.detectChanges();  // Ensure view updates
+        });
+    }    
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild('sidePanel') sidePanel!: SidePanelPeripheralsComponent;
+    @ViewChild('siePanelEdit') sidePanelEdit!: SidePanelPeripheralsEditComponent;
     
     ngOnInit(): void {
         this.loadItots();
@@ -75,18 +81,57 @@ export class PeripheralsDetailsComponent implements OnInit {
         this.sidePanel.openSidenav(); // Open the side panel
     }
 
+    openEditSidePanel(element: any) {
+        this.sidePanel.elementId = element; // Pass the element data to the edit side panel
+        this.sidePanel.openEditSidePanel(element); // Open the sidenav
+    }
+    
     openDialog(): void {
         const dialogRef = this.dialog.open(PeripheralModalCreateComponent, {
-            //data: { name: 'User Name' }, // You can pass any data here to the modal
             height: '60%',
             width: '50%',
         });
-  
-        // Optionally handle the dialog close event and get the result
+    
         dialogRef.afterClosed().subscribe((result) => {
             console.log('Dialog closed, result:', result);
+    
+            // Check if the result indicates success
+            if (result && result.success) {
+                console.log('Peripheral created successfully.');
+                this.loadItots(); // Reload the peripherals list after creation
+            } else {
+                console.log('Peripheral creation was cancelled or failed.');
+            }
         });
     }
+
+    deletePeripheral(id: number): void {
+        const dialogRef = this.dialog.open(ModalUniversalComponent, {
+            width: '400px',
+            data: { name: 'Delete Confirmation' }
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log(`Deleting peripheral with ID ${id}`);
+                this.itotService.DeletePeripheral(id).subscribe({
+                    next: () => {
+                        console.log(`Peripheral with ID ${id} deleted successfully.`);
+                        this.alertService.triggerSuccess('Peripheral deleted successfully.'); // Show success alert
+                        this.loadItots(); // Reload the list after deletion
+                    },
+                    error: (err) => {
+                        console.error('Error deleting peripheral:', err);
+                        this.alertService.triggerError('Error deleting peripheral.'); // Show error alert
+                    }
+                });
+            } else {
+                console.log('Deletion cancelled by the user.');
+                // Optionally, you can show an alert if you want to notify that deletion was cancelled.
+                // Example: this.alertService.triggerInfo('Deletion cancelled');
+            }
+        });
+    }    
 
     announceSortChange(sortState: Sort) {
         if (sortState.direction) {
@@ -94,5 +139,5 @@ export class PeripheralsDetailsComponent implements OnInit {
         } else {
             this._liveAnnouncer.announce('Sorting cleared');
         }
-    }
+    } 
 }
