@@ -46,7 +46,6 @@ import { PcCardComponent } from '../cards/pc/pc-card/pc-card.component';
 import { UserCardComponent } from '../cards/user/user-card/user-card.component';
 import { PcModalCreateComponent } from '../details/pc/pc-modal-create/pc-modal-create.component';
 import { PeripheralModalCreateComponent } from '../details/peripherals/peripheral-modal-create/peripheral-modal-create.component';
-import { SidePanelPeripheralsEditComponent } from '../details/peripherals/side-panel-peripherals-edit/side-panel-peripherals-edit.component';
 import { AlertsComponentComponent } from '../components/alerts-component/alerts-component.component';
 
 
@@ -100,8 +99,7 @@ const assetRoute:Route[]=[
     DetailsPcCardComponent,
     ModalCreatePcCardComponent,
     PcModalCreateComponent,
-    PeripheralModalCreateComponent,
-    SidePanelPeripheralsEditComponent,
+    PeripheralModalCreateComponent,    
     // AlertsComponentComponent,
   ],
   imports: [  

@@ -9,7 +9,6 @@ import { SidePanelPeripheralsComponent } from '../side-panel-peripherals/side-pa
 import { PeripheralModalCreateComponent } from '../peripheral-modal-create/peripheral-modal-create.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUniversalComponent } from '../../../components/modal/modal-universal/modal-universal.component';
-import { SidePanelPeripheralsEditComponent } from '../side-panel-peripherals-edit/side-panel-peripherals-edit.component';
 import { AlertService } from 'app/services/alert.service';
 
 @Component({
@@ -54,8 +53,7 @@ export class PeripheralsDetailsComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild('sidePanel') sidePanel!: SidePanelPeripheralsComponent;
-    @ViewChild('siePanelEdit') sidePanelEdit!: SidePanelPeripheralsEditComponent;
+    @ViewChild('sidePanel') sidePanel!: SidePanelPeripheralsComponent;    
     
     ngOnInit(): void {
         this.loadItots();

@@ -53,6 +53,10 @@ export class ITOTService {
     public UpdatePeripheral(id: number, data: any): Observable<any> {
         return this.http.put(`${this.url}/Itot/peripherals/update/${id}`, data);
     }
+
+    public UpdatePc(id: number, data: any): Observable<any> {
+        return this.http.put(`${this.url}/Itot/pc/update/${id}`, data);
+    }
     
     //uploading
     uploadExcelData(data: any[]): Observable<any> {

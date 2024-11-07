@@ -31,13 +31,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'collapsable',
                 icon: 'heroicons_outline:desktop-computer',
                 children: [
-                    {
-                        id: 'assets.equitpments.inventory',
-                        title: 'Inventory Cards',
-                        type: 'basic',
-                        icon: 'heroicons_outline:collection',
-                        link: '/assets/inventory',
-                    },
+                    // {
+                    //     id: 'assets.equitpments.inventory',
+                    //     title: 'Inventory Cards',
+                    //     type: 'basic',
+                    //     icon: 'heroicons_outline:collection',
+                    //     link: '/assets/inventory',
+                    // },
                     {
                         id: 'assets.equitpments.inventory',
                         title: 'Import Inventory',

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from 'app/services/alert.service';
@@ -14,6 +14,9 @@ export class SidePanelPeripheralsComponent implements OnInit {
     isEditSidenavOpen = false; // State for the edit sidenav
     @Input() elementId: string | null = null;
     @Input() cardData: any;
+    @Output() updateSuccess: EventEmitter<void> = new EventEmitter<void>(); // Create an emitter for successful update
+
+    // ... other properties and methods
     editData: any; // Data for the item being edited
     myForm: FormGroup;
 
@@ -93,8 +96,8 @@ export class SidePanelPeripheralsComponent implements OnInit {
             const formData = this.myForm.value;
             this.itotService
                 .UpdatePeripheral(this.editData.id, formData)
-                .subscribe(
-                    (response) => {
+                .subscribe({
+                    next: (response) => {
                         console.log(
                             'Peripheral updated successfully',
                             response
@@ -102,17 +105,21 @@ export class SidePanelPeripheralsComponent implements OnInit {
                         this.alertService.triggerSuccess(
                             'Peripheral updated successfully'
                         );
+                        this.updateSuccess.emit(); // Emit event on successful update
+                        this.closeEditSidenav(); // Optionally close the side panel after the update
                     },
-                    (error) => {
+                    error: (error) => {
                         console.error('Error updating peripheral', error);
                         this.alertService.triggerError(
                             'Error updating peripheral'
                         );
-                    }
-                );
+                    },
+                });
         } else {
             console.log('Form is invalid');
-            // Handle invalid form if necessary
+            this.alertService.triggerError(
+                'Please complete the form correctly.'
+            );
         }
     }
 }

@@ -12,6 +12,7 @@ import { SidePanelPcCardComponent } from '../../../cards/pc/side-panel-pc-card/s
 import { PcModalCreateComponent } from '../pc-modal-create/pc-modal-create.component';
 import { ModalUniversalComponent } from '../../../components/modal/modal-universal/modal-universal.component';
 import { AlertService } from 'app/services/alert.service';
+import { SidePanelPcsComponent } from '../side-panel-pcs/side-panel-pcs.component';
  
 
 @Component({
@@ -174,9 +175,16 @@ export class PcDetailsComponent implements OnInit {
             width: '50%',
         });
   
-        // Optionally handle the dialog close event and get the result
         dialogRef.afterClosed().subscribe((result) => {
             console.log('Dialog closed, result:', result);
+    
+            // Check if the result indicates success
+            if (result && result.success) {
+                console.log('Peripheral created successfully.');
+                this.loadItots(); // Reload the peripherals list after creation
+            } else {
+                console.log('Peripheral creation was cancelled or failed.');
+            }
         });
     }
 
@@ -184,10 +192,15 @@ export class PcDetailsComponent implements OnInit {
         this.sidePanel.elementId = id; // Pass the ID
         this.sidePanel.openSidenav(); // Open the side panel
     }
+    
+    openEditSidePanel(element: any) {
+        this.sidePanel.elementId = element; // Pass the element data to the edit side panel
+        this.sidePanel.openEditSidePanel(element); // Open the sidenav
+    }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild('sidePanel') sidePanel!: SidePanelPcCardComponent;
+    @ViewChild('sidePanel') sidePanel!: SidePanelPcsComponent;
 
     ngOnInit(): void {
         // Any initialization logic can be added here
@@ -234,6 +247,7 @@ export class PcDetailsComponent implements OnInit {
                         console.log(`Peripheral with ID ${id} deleted successfully.`);
                         this.alertService.triggerSuccess('Peripheral deleted successfully.'); // Show success alert
                         this.loadItots(); // Reload the list after deletion
+                        
                     },
                     error: (err) => {
                         console.error('Error deleting peripheral:', err);

@@ -1,4 +1,3 @@
-
 <!-- Navigation -->
 <fuse-vertical-navigation
     class="dark bg-gray-900 print:hidden"
@@ -78,20 +77,16 @@
             <languages></languages>
             <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
             <search [appearance]="'bar'"></search>
-            <shortcuts></shortcuts>          
+            <shortcuts></shortcuts>
         </div>
     </div>
-    
-    <!-- Content -->
-    <div class="flex flex-col flex-auto" >        
 
-        <router-outlet *ngIf="true">
-           
-        </router-outlet>
+    <!-- Content -->
+    <div class="flex flex-col flex-auto">
+        <router-outlet *ngIf="true"> </router-outlet>
         <app-alerts-component></app-alerts-component>
     </div>
 
-    
     <!-- Footer -->
     <!-- <div
         class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden"
@@ -101,8 +96,6 @@
             {{ currentYear }}</span
         >
     </div> -->
-    
-  
 </div>
 
 <!-- Quick chat -->

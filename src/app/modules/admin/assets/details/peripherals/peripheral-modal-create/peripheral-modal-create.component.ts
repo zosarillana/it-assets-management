@@ -63,7 +63,7 @@ export class PeripheralModalCreateComponent implements OnInit {
                 asset_barcode: ['', Validators.required],
                 serial_no: ['', Validators.required],
                 peripheral_type: ['', Validators.required],
-                li_description: ['', Validators.required],
+                // li_description: ['', Validators.required],
             }),
             step2: this._formBuilder.group({
                 size: ['', Validators.required],
@@ -250,7 +250,7 @@ export class PeripheralModalCreateComponent implements OnInit {
                 asset_barcode: step1.asset_barcode,
                 serial_no: step1.serial_no,
                 peripheral_type: step1.peripheral_type,
-                li_description: step1.li_description,
+                li_description: " ",
                 size: step2.size,
                 brand: step2.brand,
                 model: step2.model,
