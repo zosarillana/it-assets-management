@@ -168,6 +168,7 @@ export class PcDetailsComponent implements OnInit {
             }
         );
     }
+
     openDialog(): void {
         const dialogRef = this.dialog.open(PcModalCreateComponent, {
             //data: { name: 'User Name' }, // You can pass any data here to the modal
@@ -260,6 +261,5 @@ export class PcDetailsComponent implements OnInit {
                 // Example: this.alertService.triggerInfo('Deletion cancelled');
             }
         });
-    }    
-   
+    }       
 }

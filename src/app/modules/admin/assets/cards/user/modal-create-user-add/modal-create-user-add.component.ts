@@ -8,6 +8,7 @@ import { CardService } from 'app/services/card.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AlertService } from 'app/services/alert.service';
 
 @Component({
     selector: 'app-modal-create-user-add',
@@ -52,7 +53,8 @@ export class ModalCreateUserAddComponent implements OnInit {
         private itotService: ITOTService,
         private cardService: CardService,
         private dialogRef: MatDialogRef<ModalCreateUserAddComponent>,
-        private _fuseConfirmationService: FuseConfirmationService
+        private _fuseConfirmationService: FuseConfirmationService,
+        private alertService: AlertService
     ) {}
 
     ngOnInit() {

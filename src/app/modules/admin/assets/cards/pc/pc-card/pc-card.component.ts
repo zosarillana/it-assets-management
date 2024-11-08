@@ -8,6 +8,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ModalCreateUserAddComponent } from '../../user/modal-create-user-add/modal-create-user-add.component';
 import { SidePanelPcCardComponent } from '../side-panel-pc-card/side-panel-pc-card.component';
+import { AlertService } from 'app/services/alert.service';
+import { ModalCreatePcCardComponent } from '../modal-create-pc-card/modal-create-pc-card.component';
 
 
 @Component({
@@ -32,7 +34,8 @@ export class PcCardComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private cardService: CardService,
-        private _liveAnnouncer: LiveAnnouncer
+        private _liveAnnouncer: LiveAnnouncer,
+        private alertService: AlertService
     ) {}
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -80,7 +83,7 @@ export class PcCardComponent implements OnInit {
     }
 
     openDialog(): void {
-        const dialogRef = this.dialog.open(ModalCreateUserAddComponent, {
+        const dialogRef = this.dialog.open(ModalCreatePcCardComponent, {
             // data: { name: 'User Name' }, // You can pass any data here to the modal
             height: '65%',
             width: '50%',
@@ -89,6 +92,14 @@ export class PcCardComponent implements OnInit {
         // Optionally handle the dialog close event and get the result
         dialogRef.afterClosed().subscribe((result) => {
             console.log('Dialog closed, result:', result);
+    
+            // Check if the result indicates success
+            if (result && result.success) {
+                console.log('Card created successfully.');
+                this.loadCards(); // Reload the peripherals list after creation
+            } else {
+                console.log('Card creation was cancelled or failed.');
+            }
         });
     }
 }

@@ -10,6 +10,7 @@ import { CardService } from 'app/services/card.service';
 import { ITOTService } from 'app/services/itot.service';
 import { ModalCreatePcCardComponent } from '../../../cards/pc/modal-create-pc-card/modal-create-pc-card.component';
 import { AlertService } from 'app/services/alert.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-pc-modal-create',
@@ -112,19 +113,21 @@ export class PcModalCreateComponent implements OnInit {
     loadBarcodes() {
         this.itotService.getItots().subscribe(
             (barcodes: ItotPc[]) => {
-                this.pcs = barcodes.filter((pc) => pc.asset_barcode != null);
+                this.pcs = barcodes
+                    .filter((pc) => pc.asset_barcode != null)
+                    .filter((pc) => pc.assigned === "Not Assigned"); // Add this filter
                 this.filteredPcs = [...this.pcs];
             },
             (error) => {
                 console.error('Error fetching ITOT barcodes:', error);
             }
         );
-
+    
         this.itotService.getItotPeripherals().subscribe(
             (barcodes: ItotPeripheral[]) => {
-                this.fruits = barcodes.filter(
-                    (peripherals) => peripherals.asset_barcode != null
-                );
+                this.fruits = barcodes
+                    .filter((peripherals) => peripherals.asset_barcode != null)
+                    .filter((peripherals) => peripherals.assigned === "Not Assigned"); // Add this filter
                 this.filteredFruits = [...this.fruits];
             },
             (error) => {
@@ -285,10 +288,20 @@ export class PcModalCreateComponent implements OnInit {
                     this.alertService.triggerSuccess('PC created successfully');
                     this.dialogRef.close({ success: true }); // Close with success result
                 },
-                error: (error) => {
-                    console.error('Error creating PC', error);
-                    this.alertService.triggerError('Error creating PC');
-                    this.dialogRef.close({ success: false }); // Close with failure result
+                error: (error: HttpErrorResponse) => {
+                    console.error('Error creating PC', error.error);
+        
+                    // Check if error contains a specific message
+                    let errorMessage = 'An unexpected error occurred.';
+                    if (error.error) {
+                        // If error.error is a string (as is common for API error messages)
+                        errorMessage = typeof error.error === 'string' ? error.error : JSON.stringify(error.error);
+                    }
+        
+                    // Display the extracted or fallback error message to the user
+                    this.alertService.triggerError(errorMessage);
+        
+                    // Keep the dialog open for the user to retry
                 },
             });
         } else {
@@ -296,6 +309,6 @@ export class PcModalCreateComponent implements OnInit {
             this.alertService.triggerError(
                 'Please complete the form correctly.'
             );
-        }
+        }        
     }
 }
