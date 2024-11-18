@@ -30,14 +30,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Assets Profile',
                 type: 'collapsable',
                 icon: 'heroicons_outline:desktop-computer',
-                children: [
-                    // {
-                    //     id: 'assets.equitpments.inventory',
-                    //     title: 'Inventory Cards',
-                    //     type: 'basic',
-                    //     icon: 'heroicons_outline:collection',
-                    //     link: '/assets/inventory',
-                    // },
+                children: [                 
                     {
                         id: 'assets.equitpments.inventory',
                         title: 'Import Inventory',
@@ -55,40 +48,132 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 children: [
                     {
                         id: 'assets.cards.details',
-                        title: 'Cards Details',
+                        title: 'Accountability',
                         type: 'collapsable',
                         icon: 'mat_outline:article',         
-                        children:[
-                            // {
-                            //     id: 'assets.cards.details.user',
-                            //     title: 'User Card',
-                            //     type: 'basic',
-                            //      icon: 'feather:user',
-                            //     link: '/assets/cards/users',
-                            // },
+                        children:[                           
                             {
                                 id: 'assets.cards.details.pc',
-                                title: 'Desktop Card',
+                                title: 'Accountability Form',
                                 type: 'basic',
-                                 icon: 'feather:monitor',
+                                //  icon: 'feather:monitor',
                                 link: '/assets/cards/pcs',
                             },
                         ]             
                     },
                     {
-                        id: 'assets.tables.pc',
-                        title: 'PC Specs',
-                        type: 'basic',
-                        icon: 'feather:monitor',
-                        link: '/assets/pc',
+                        id: 'assets.cards.details',
+                        title: 'Desktop',
+                        type: 'collapsable',
+                        icon: 'feather:monitor',         
+                        children:[                           
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Desktop Specifications',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Desktop Set',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Laptop Set',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Laptop Specifications',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                        ]             
                     },
                     {
-                        id: 'assets.equitpments.inventory',
-                        title: 'Peripherals ',
-                        type: 'basic',
-                        icon: 'mat_outline:devices_other',
-                        link: '/assets/peripherals',
+                        id: 'assets.peripherals.label',
+                        title: 'Peripherals',
+                        type: 'collapsable',
+                        icon: 'mat_outline:devices_other',         
+                        children:[                          
+                            {
+                                id: 'assets.peripherals.specifications',
+                                title: 'Peripherals Specification ',
+                                type: 'basic',                                
+                                link: '/assets/peripherals/specification',
+                            },
+                            {
+                                id: 'assets.peripherals.monitor',
+                                title: 'Monitor',
+                                type: 'basic',                                
+                                link: '/assets/peripherals/monitor',
+                            },
+                            {
+                                id: 'assets.peripherals.mouse',
+                                title: 'Mouse',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Keyboard',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Adapter',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                               title: 'External Driver',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Web Camera',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'UPS/AVR',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Dongle',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                            {
+                                id: 'assets.tables.pc',
+                                title: 'Bag',
+                                type: 'basic',
+                                // icon: 'feather:monitor',
+                                // link: '/assets/pc',
+                            },
+                        ]             
                     },
+                 
                 ],
             },
         ],
