@@ -8,7 +8,7 @@ export class Monitor {
     assigned = '';
     user_history = '';
     set_history = '';
-    li_description = '';   
+    // li_description = '';   
     acquired_date = '';
     asset_barcode = '';
     serial_no = '';

@@ -42,6 +42,16 @@ export class SidePanelMonitorComponent implements OnInit {
             color: ['', Validators.required],
         });
     }
+
+    showAll = false; // Toggle state
+    defaultVisibleItems = 2; // Number of items to initially show
+    visibleItems = this.defaultVisibleItems; // Start with limited items
+  
+    toggleShowAll() {
+      this.showAll = !this.showAll;
+      this.visibleItems = this.showAll ? this.cardData.setHistory.length : this.defaultVisibleItems;
+    }
+  
     getOrdinal(n: number): string {
         const suffixes = ['th', 'st', 'nd', 'rd'];
         const remainder = n % 100;
@@ -62,6 +72,7 @@ export class SidePanelMonitorComponent implements OnInit {
                     // Check if userHistory is present
                     if (this.cardData.userHistory) {
                         console.log('User History:', this.cardData.userHistory);
+                        console.log('Set History:', this.cardData.setHistory);
                     } else {
                         console.log('No userHistory found in the fetched data.');
                     }

@@ -9,6 +9,7 @@ import { AlertService } from 'app/services/alert.service';
 import { ITOTService } from 'app/services/itot.service';
 import { PeripheralModalCreateComponent } from '../../peripherals-details/peripheral-modal-create/peripheral-modal-create.component';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { MonitorService } from 'app/services/peripheral/monitor.service';
 
 @Component({
   selector: 'app-monitor-modal-create',
@@ -30,7 +31,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class MonitorModalCreateComponent implements OnInit {
   configForm: FormGroup;
   isLinear = false;
-  horizontalStepperForm: FormGroup;
+  peripheralForm: FormGroup; 
 
   fruits: ItotPeripheral[] = [];
   filteredFruits: ItotPeripheral[] = [];
@@ -50,28 +51,22 @@ export class MonitorModalCreateComponent implements OnInit {
 
   constructor(
       private _formBuilder: FormBuilder,
-      private itotService: ITOTService,    
+      private service: MonitorService,    
       private dialogRef: MatDialogRef<PeripheralModalCreateComponent>,
       private _fuseConfirmationService: FuseConfirmationService,
       private alertService: AlertService,
   ) {}
 
   ngOnInit() {
-      this.horizontalStepperForm = this._formBuilder.group({
-          step1: this._formBuilder.group({
-              date_acquired: ['', [Validators.required]],
-              asset_barcode: ['', Validators.required],
-              serial_no: ['', Validators.required],
-              peripheral_type: ['', Validators.required],
-              // li_description: ['', Validators.required],
-          }),
-          step2: this._formBuilder.group({
-              size: ['', Validators.required],
-              brand: ['', Validators.required],
-              model: ['', Validators.required],
-              color: ['', Validators.required],
-          }),
-      });
+    this.peripheralForm = this._formBuilder.group({
+        acquired_date: ['', Validators.required],
+        brand: ['', Validators.required],
+        model: ['', Validators.required],
+        size: ['', Validators.required],
+        color: ['', Validators.required],
+        asset_barcode: ['', Validators.required],
+        serial_no: ['', Validators.required],
+    });
 
       // Build the confirmation dialog config form
       this.configForm = this._formBuilder.group({
@@ -95,33 +90,7 @@ export class MonitorModalCreateComponent implements OnInit {
               }),
           }),
           dismissible: true,
-      });
-
-      this.loadBarcodes();
-  }
-
-  loadBarcodes() {
-      this.itotService.getItots().subscribe(
-          (barcodes: ItotPc[]) => {
-              this.pcs = barcodes.filter((pc) => pc.asset_barcode != null);
-              this.filteredPcs = [...this.pcs];
-          },
-          (error) => {
-              console.error('Error fetching ITOT barcodes:', error);
-          }
-      );
-
-      this.itotService.getItotPeripherals().subscribe(
-          (barcodes: ItotPeripheral[]) => {
-              this.fruits = barcodes.filter(
-                  (peripherals) => peripherals.asset_barcode != null
-              );
-              this.filteredFruits = [...this.fruits];
-          },
-          (error) => {
-              console.error('Error fetching ITOT barcodes:', error);
-          }
-      );
+      });  
   }
 
   add(event: any): void {
@@ -232,49 +201,83 @@ export class MonitorModalCreateComponent implements OnInit {
           }
       });
   }
-  submitForm() {
-      // Check if the form is valid
-      if (this.horizontalStepperForm.valid) {
-          const step1 = this.horizontalStepperForm.get('step1')?.value;
-          const step2 = this.horizontalStepperForm.get('step2')?.value;
+  submitForm(): void {
+    if (this.peripheralForm.valid) {
+        const formData = this.peripheralForm.value;
+
+        const submissionData = {
+            size: formData.size,
+            model: formData.model,
+            color: formData.color,
+            brand: formData.brand,
+            status: "Active", // Matches backend default
+            assigned: "", // Matches backend expected name
+            user_history: "", // Matches backend expected name
+            set_history: "", // Matches backend expected name
+            li_description: `${formData.model} ${formData.color} ${formData.brand} ${formData.size}`, // Concatenated description
+            acquired_date: formData.acquired_date,
+            asset_barcode: formData.asset_barcode,
+            serial_no: formData.serial_no,
+        };
+
+        this.service.CreateMonitor(submissionData).subscribe(
+            response => {
+                console.log('Peripheral created successfully:', response);
+                this.alertService.triggerSuccess('Peripheral created successfully');
+                this.dialogRef.close({ success: true });
+            },
+            error => {
+                console.error('Error creating peripheral:', error);
+                this.alertService.triggerError('Error creating peripheral');
+            }
+        );
+    } else {
+        this.alertService.triggerError('Please fill out all required fields.');
+    }
+}
+
+//       // Check if the form is valid
+//       if (this.horizontalStepperForm.valid) {
+//           const step1 = this.horizontalStepperForm.get('step1')?.value;
+//           const step2 = this.horizontalStepperForm.get('step2')?.value;
   
-          const selectedPcIds = this.selectedPcs.map((pc) => pc.id).join(',');
-          const selectedPeripheralIds = this.selectedPeris
-              .map((peripheral) => peripheral.id)
-              .join(',');
+//           const selectedPcIds = this.selectedPcs.map((pc) => pc.id).join(',');
+//           const selectedPeripheralIds = this.selectedPeris
+//               .map((peripheral) => peripheral.id)
+//               .join(',');
   
-          const dateAssigned = step1.date_acquired || null;
+//           const dateAssigned = step1.date_acquired || null;
   
-          const Data = {
-              date_acquired: dateAssigned,
-              asset_barcode: step1.asset_barcode,
-              serial_no: step1.serial_no,
-              peripheral_type: step1.peripheral_type,
-              li_description: " ",
-              size: step2.size,
-              brand: step2.brand,
-              model: step2.model,
-              color: step2.color,
-          };
+//           const Data = {
+//               date_acquired: dateAssigned,
+//               asset_barcode: step1.asset_barcode,
+//               serial_no: step1.serial_no,
+//               peripheral_type: step1.peripheral_type,
+//               li_description: " ",
+//               size: step2.size,
+//               brand: step2.brand,
+//               model: step2.model,
+//               color: step2.color,
+//           };
   
-          console.log('Submitted Data:', Data);
+//           console.log('Submitted Data:', Data);
   
-          // Always create a new peripheral
-          this.itotService.CreatePeripheral(Data).subscribe(
-              (response) => {
-                  console.log('Peripheral created successfully', response);
-                  this.alertService.triggerSuccess('Peripheral created successfully');
-                  this.dialogRef.close({ success: true }); // Close with success result
-              },
-              (error) => {
-                  console.error('Error creating peripheral', error);
-                  this.alertService.triggerError('Error creating peripheral');
-                  this.dialogRef.close({ success: false }); // Close with failure result
-              }
-          );
-      } else {
-          console.log('Form is invalid');
-          this.alertService.triggerError('Please complete the form correctly.');
-      }
-  }    
+//           // Always create a new peripheral
+//           this.itotService.CreatePeripheral(Data).subscribe(
+//               (response) => {
+//                   console.log('Peripheral created successfully', response);
+//                   this.alertService.triggerSuccess('Peripheral created successfully');
+//                   this.dialogRef.close({ success: true }); // Close with success result
+//               },
+//               (error) => {
+//                   console.error('Error creating peripheral', error);
+//                   this.alertService.triggerError('Error creating peripheral');
+//                   this.dialogRef.close({ success: false }); // Close with failure result
+//               }
+//           );
+//       } else {
+//           console.log('Form is invalid');
+//           this.alertService.triggerError('Please complete the form correctly.');
+//       }
+//   }    
 }    

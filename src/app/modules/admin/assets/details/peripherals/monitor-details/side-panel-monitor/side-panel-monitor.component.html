@@ -123,13 +123,20 @@
             </div>
             <div class="flex mt-2 border-t">
                 <div class="py-3">
-                    <div class="py-3">
+                    <div class="py-3 ">
+                    
                         <ng-container *ngIf="cardData?.setHistory?.length > 0; else noData">
-                            <ng-container *ngFor="let desktop of cardData?.setHistory; let i = index; let last = last">
-                              {{ getOrdinal(i + 1) }} {{ desktop?.li_description }} 
-                              <span *ngIf="!last">, </span>
+                            <ng-container *ngFor="let desktop of cardData?.setHistory | slice: 0:visibleItems; let i = index; let last = last">
+                              {{ getOrdinal(i + 1) }} {{ desktop?.li_description }}
+                              <span *ngIf="!last"><br></span>
                             </ng-container>
-                          </ng-container>                                            
+                            <!-- Show "See More" or "See Less" based on toggle state -->
+                             <br>
+                            <button (click)="toggleShowAll()" class="text-blue-500">
+                                {{ showAll ? 'See Less...' : 'See More...' }}
+                              </button>     
+                          </ng-container>
+                                        
                       
                           <!-- Fallback message if no userHistory is found -->
                           <ng-template #noData>

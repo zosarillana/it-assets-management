@@ -92,7 +92,7 @@ export class MonitorDetailsComponent implements OnInit {
 
     openDialog(): void {
         const dialogRef = this.dialog.open(MonitorModalCreateComponent, {
-            height: '60%',
+            height: '52%',
             width: '50%',
         });
 
